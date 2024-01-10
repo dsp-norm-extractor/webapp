@@ -1,0 +1,44 @@
+{
+  "name": "webapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.11",
+    "@mui/material": "^5.14.11",
+    "@mui/styled-engine-sc": "^5.14.11",
+    "@mui/x-data-grid": "^6.16.1",
+    "@types/d3": "^7.4.1",
+    "chart.js": "^4.4.0",
+    "d3": "^7.8.5",
+    "mongodb": "^6.3.0",
+    "next": "latest",
+    "react": "latest",
+    "react-admin": "^4.14.5",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "latest",
+    "react-inner-image-zoom": "^3.0.2",
+    "react-spring": "^9.7.3",
+    "react-svg-pan-zoom": "^3.12.1",
+    "react-svg-pan-zoom-loader": "^1.6.1",
+    "react-zoom-pan-pinch": "^3.1.0",
+    "recharts": "^2.8.0",
+    "styled-components": "^5.3.11"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/react-svg-pan-zoom": "^3.3.6",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "typescript": "latest"
+  }
+}
