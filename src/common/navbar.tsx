@@ -16,7 +16,7 @@ import Link from "next/link"
 import { useState } from "react"
 
 const drawerWidth = 240
-const navItems = ["Data", "About"]
+const navItems = ["Data", "About", "apitest"]
 
 export default function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = useState(false)
