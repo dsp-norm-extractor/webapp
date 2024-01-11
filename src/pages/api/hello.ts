@@ -1,13 +1,24 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { WithId, Document } from "mongodb"
+import clientPromise from "../../../lib/mongodb"
 
-type Data = {
-  name: string
-}
+// eslint-disable-next-line import/no-anonymous-default-export
+export default async (
+  req: any,
+  res: { json: (arg0: WithId<Document>[]) => void }
+) => {
+  try {
+    const client = await clientPromise
+    const db = client.db("sample_mflix")
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({ name: 'John Doe' })
+    const movies = await db
+      .collection("movies")
+      .find({})
+      .sort({ metacritic: -1 })
+      .limit(10)
+      .toArray()
+
+    res.json(movies)
+  } catch (e) {
+    console.error(e)
+  }
 }
