@@ -8,6 +8,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { initialGames } from "./games/games-list"
 import { titleToSlug } from "@/helpers/slug"
+import { GameCard } from "@/components/game-card/game-card"
 
 const Home: React.FC = () => {
   const [games, setGames] = useState(initialGames)
@@ -38,18 +39,17 @@ const Home: React.FC = () => {
       <FlexBox
         gap={2}
         wrap="wrap"
-        customStyles={{ flexBasis: "calc(33.333% - 2px)" }}>
+        customStyles={{
+          flexGrow: "3",
+        }}>
         {games.map(({ title, image }) => (
           <Link
             key={title}
             href={`/games/${titleToSlug(title)}`}>
-            <div>
-              <img
-                src={image}
-                alt={title}
-              />
-              <div>{title}</div>
-            </div>
+            <GameCard
+              image={image}
+              title={title}
+            />
           </Link>
         ))}
       </FlexBox>
