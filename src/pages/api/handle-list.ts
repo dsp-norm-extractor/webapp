@@ -1,20 +1,20 @@
-// pages/api/handleList.js
-
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    // Get the list data from the request body
-    const list = req.body.list
+    try {
+      const { rules } = req.body
 
-    // Do something with the list data
-    console.log(list)
+      // Process the rules here, for example, log them
+      console.log("Received rules:", rules)
 
-    // Send a response
-    res.status(200).json({ list })
+      // Respond with a success message
+      res.status(200).json({ success: true, rules: rules })
+    } catch (error) {
+      console.error("Error processing rules:", error)
+      res.status(500).json({ success: false, error: "Internal Server Error" })
+    }
   } else {
-    // Handle any other HTTP method
-    res.setHeader("Allow", ["POST"])
-    res.status(405).end(`Method ${req.method} Not Allowed`)
+    res.status(405).json({ success: false, error: "Method Not Allowed" })
   }
 }

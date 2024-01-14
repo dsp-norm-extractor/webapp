@@ -24,21 +24,11 @@ const drawerWidth = 240
 const navItems = [
   { label: "Data", path: "/data" },
   { label: "About", path: "/about" },
-  { label: "apitest", path: "/apitest" },
   { label: "Add New Rules", path: "/addrules", variant: "contained" },
 ]
 
 const StyledAppBar = styled(AppBar)({
   background: "#5a617f", // Customize your background color here
-})
-
-const StyledTypography = styled(Typography)({
-  flexGrow: 1,
-  display: { xs: "none", sm: "block" },
-})
-
-const StyledButton = styled(Button)({
-  color: "#fff",
 })
 
 export default function DrawerAppBar() {
@@ -93,21 +83,25 @@ export default function DrawerAppBar() {
             sx={{ mr: 2, display: { sm: "none" } }}>
             <MenuIcon />
           </IconButton>
-          <StyledTypography
+          <Typography
+            sx={{
+              flexGrow: 1,
+            }}
             variant="h6"
             fontWeight="bold">
-            <Link href="/">SGR</Link>
-          </StyledTypography>
+            <Link href="/">Simple Game Rules</Link>
+          </Typography>
           <FlexBox gap={2}>
             {navItems.map(({ label, path, variant }) => (
               <Link
                 key={label}
                 href={path}>
-                <StyledButton
+                <Button
                   key={label}
-                  variant={variant}>
+                  variant={variant}
+                  sx={{ fontWeight: 900, color: "whitesmoke" }}>
                   {label}
-                </StyledButton>
+                </Button>
               </Link>
             ))}
           </FlexBox>
