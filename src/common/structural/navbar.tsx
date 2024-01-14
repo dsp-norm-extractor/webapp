@@ -1,22 +1,45 @@
-import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
-import CssBaseline from "@mui/material/CssBaseline"
-import Divider from "@mui/material/Divider"
-import Drawer from "@mui/material/Drawer"
-import IconButton from "@mui/material/IconButton"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemText from "@mui/material/ListItemText"
+import React, { useState } from "react"
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Button,
+  styled,
+} from "@mui/material"
+
 import MenuIcon from "@mui/icons-material/Menu"
-import Toolbar from "@mui/material/Toolbar"
-import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
 import Link from "next/link"
-import { useState } from "react"
+import FlexBox from "../generic/flexbox"
 
 const drawerWidth = 240
-const navItems = ["Data", "About", "apitest"]
+const navItems = [
+  { label: "Data", path: "/data" },
+  { label: "About", path: "/about" },
+  { label: "apitest", path: "/apitest" },
+  { label: "Add New Rules", path: "/addrules", variant: "contained" },
+]
+
+const StyledAppBar = styled(AppBar)({
+  background: "#333", // Customize your background color here
+})
+
+const StyledTypography = styled(Typography)({
+  flexGrow: 1,
+  display: { xs: "none", sm: "block" },
+})
+
+const StyledButton = styled(Button)({
+  color: "#fff",
+})
 
 export default function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -36,15 +59,15 @@ export default function DrawerAppBar() {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
+        {navItems.map(({ label, path }) => (
           <Link
-            key={item}
-            href={`/${item.toLowerCase()}`}>
+            key={label}
+            href={path}>
             <ListItem
-              key={item}
+              key={label}
               disablePadding>
               <ListItemButton sx={{ textAlign: "center" }}>
-                <ListItemText primary={item} />
+                <ListItemText primary={label} />
               </ListItemButton>
             </ListItem>
           </Link>
@@ -56,7 +79,7 @@ export default function DrawerAppBar() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <StyledAppBar>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -66,35 +89,33 @@ export default function DrawerAppBar() {
             sx={{ mr: 2, display: { sm: "none" } }}>
             <MenuIcon />
           </IconButton>
-          <Typography
+          <StyledTypography
             variant="h6"
-            fontWeight="bold"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
+            fontWeight="bold">
             <Link href="/">SGR</Link>
-          </Typography>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
+          </StyledTypography>
+          <FlexBox gap={2}>
+            {navItems.map(({ label, path, variant }) => (
               <Link
-                key={item}
-                href={`/${item.toLowerCase()}`}>
-                <Button
-                  key={item}
-                  sx={{ color: "#fff" }}>
-                  {item}
-                </Button>
+                key={label}
+                href={path}>
+                <StyledButton
+                  key={label}
+                  variant={variant}>
+                  {label}
+                </StyledButton>
               </Link>
             ))}
-          </Box>
+          </FlexBox>
         </Toolbar>
-      </AppBar>
+      </StyledAppBar>
       <nav>
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
