@@ -4,7 +4,7 @@ import Navbar from "./navbar"
 import Footer from "./footer"
 
 export default function Layout({ children }: React.PropsWithChildren) {
-  const theme = useTheme() // Add this line to get the theme
+  const theme = useTheme()
 
   return (
     <>
@@ -17,8 +17,8 @@ export default function Layout({ children }: React.PropsWithChildren) {
           maxWidth: "95%",
           marginTop: theme.spacing(2),
           marginBottom: theme.spacing(2),
-          paddingLeft: theme.spacing(2), // Add padding to match the overall styling
-          paddingRight: theme.spacing(2), // Add padding to match the overall styling
+          paddingLeft: theme.spacing(30),
+          paddingRight: theme.spacing(30),
         }}>
         {children}
       </Box>

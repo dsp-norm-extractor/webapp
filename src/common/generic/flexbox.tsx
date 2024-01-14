@@ -14,6 +14,7 @@ type FlexBoxProps = {
   align?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch"
   wrap?: "nowrap" | "wrap" | "wrap-reverse"
   gap?: number
+  customStyles?: Record<string, any> // Additional custom styles
 }
 
 const FlexBox = ({
@@ -22,6 +23,8 @@ const FlexBox = ({
   justify = "flex-start",
   align = "center",
   wrap = "nowrap",
+  gap = 0,
+  customStyles = {},
   ...props
 }: FlexBoxProps) => {
   return (
@@ -31,6 +34,8 @@ const FlexBox = ({
       justifyContent={justify}
       alignItems={align}
       flexWrap={wrap}
+      gap={gap}
+      {...customStyles} // Apply custom styles
       {...props}>
       {children}
     </Box>

@@ -29,7 +29,7 @@ const navItems = [
 ]
 
 const StyledAppBar = styled(AppBar)({
-  background: "#333", // Customize your background color here
+  background: "#5a617f", // Customize your background color here
 })
 
 const StyledTypography = styled(Typography)({
@@ -55,7 +55,11 @@ export default function DrawerAppBar() {
       <Typography
         variant="h6"
         sx={{ my: 2 }}>
-        <Link href="/">SGR</Link>
+        <Link
+          href="/"
+          passHref>
+          SGR
+        </Link>
       </Typography>
       <Divider />
       <List>
