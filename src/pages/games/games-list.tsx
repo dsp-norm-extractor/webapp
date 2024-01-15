@@ -3,35 +3,38 @@ export const initialGames = [
     title: "Catan",
     image: "https://picsum.photos/seed/Catan/300/200",
     rules: [
-      { sentence: "Build roads to connect your settlements.", tag: "act" },
+      {
+        sentence: "Build roads to connect your settlements.",
+        tag: ["act", "duty"],
+      },
       {
         sentence: "Trading resources with other players is allowed.",
-        tag: "fact",
+        tag: ["act", "duty"],
       },
       { sentence: "You must expand to win the game.", tag: "duty" },
       {
         sentence: "Construct cities for increased resource production.",
-        tag: "act",
+        tag: ["act", "duty"],
       },
       { sentence: "Players must trade at least once per turn.", tag: "duty" },
       {
         sentence: "The robber steals resources from the targeted player.",
-        tag: "act",
+        tag: ["act", "duty"],
       },
       { sentence: "Fact: The largest army earns bonus points.", tag: "fact" },
       {
         sentence:
           "Duty: Everyone must participate in building the longest road.",
-        tag: "duty",
+        tag: ["act", "duty"],
       },
       {
         sentence:
           "Cities generate resources more efficiently than settlements.",
-        tag: "fact",
+        tag: ["act", "duty"],
       },
       {
         sentence: "Act: Trade strategically to gain valuable resources.",
-        tag: "act",
+        tag: ["act", "duty"],
       },
     ],
   },

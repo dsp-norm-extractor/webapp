@@ -6,6 +6,7 @@ import { initialGames } from "./games-list"
 import { Chip } from "@mui/material"
 import FlexBox from "@/common/generic/flexbox"
 import { titleToSlug } from "@/helpers/slug"
+import BasicModal from "@/components/modal/modal"
 interface GameProps {
   title: string
   image: string
@@ -14,38 +15,43 @@ interface GameProps {
 
 interface Rules {
   sentence: string
-  tag: string
+  tag: string[]
 }
 
-const Game: React.FC<GameProps> = ({ title, image, rules }) => {
+const Game: React.FC<GameProps> = ({ title, rules }) => {
   const router = useRouter()
 
-  // If the page is not yet generated, this will be displayed
-  // initially until getStaticProps() finishes running.
   if (router.isFallback) {
     return <div>Loading...</div>
   }
 
-  // Your HTML content for each game goes here
   return (
     <div>
       <h1>{title}</h1>
-
+      <BasicModal />
       <div>
         <ol>
           {rules.map(({ sentence, tag }, index) => (
             <FlexBox key={index}>
               <li>{sentence}</li>
-              <Chip
-                label={tag}
-                color={
-                  tag === "duty"
-                    ? "primary"
-                    : tag === "act"
-                    ? "secondary"
-                    : "success"
-                }
-              />
+              {Array.isArray(tag) ? (
+                tag.map((singltag) => (
+                  <Chip
+                    key={singltag}
+                    label={singltag}
+                    color={
+                      singltag === "duty"
+                        ? "primary"
+                        : singltag === "act"
+                        ? "secondary"
+                        : "success"
+                    }
+                  />
+                ))
+              ) : (
+                // Handle the case where tag is not an array, e.g., display an error message
+                <div>Invalid tag format for rule {index + 1}</div>
+              )}
             </FlexBox>
           ))}
         </ol>
@@ -56,8 +62,8 @@ const Game: React.FC<GameProps> = ({ title, image, rules }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Generate paths for all games
-  const paths = initialGames.map((game) => ({
-    params: { game: titleToSlug(game.title) },
+  const paths = initialGames.map(({ title }) => ({
+    params: { game: titleToSlug(title) },
   }))
 
   return {

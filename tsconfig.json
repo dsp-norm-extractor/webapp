@@ -23,7 +23,8 @@
     "**/*.tsx",
     "src/pages/api/hello.js",
     "db.js",
-    "src/pages/api-test.tsx"
+    "src/pages/api-test.tsx",
+    "src/components/modal"
   ],
   "exclude": ["node_modules"]
 }

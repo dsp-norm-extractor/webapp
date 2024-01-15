@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { Typography, Link, Box } from "@mui/material"
-import { useSpring, animated } from "react-spring"
-import { easings } from "@react-spring/web"
+import React from "react"
+import { Typography, Box } from "@mui/material"
 
 const AboutPage = () => {
   const names = ["Atanas", "Dimitrios", "Ioannis", "Rhea"]
