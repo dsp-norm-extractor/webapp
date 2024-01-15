@@ -1,11 +1,10 @@
-import React from "react"
-import { Card, CardContent, Typography } from "@mui/material"
-import { styled } from "@mui/material"
 import {
-  StyledCard,
-  BackgroundImage,
-  StyledCardContent,
-} from "./game-card.styled"
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material"
 
 export const GameCard = ({
   title,
@@ -15,11 +14,32 @@ export const GameCard = ({
   image: string
 }) => {
   return (
-    <StyledCard>
-      <BackgroundImage image={image} />
-      <StyledCardContent>
-        <Typography variant="h5">{title}</Typography>
-      </StyledCardContent>
-    </StyledCard>
+    <Card>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          height="140"
+          image={image}
+          alt="green iguana"
+        />
+        <CardContent>
+          <Typography
+            overflow="hidden"
+            textOverflow="ellipsis"
+            gutterBottom
+            variant="h6"
+            fontWeight={600}
+            component="div">
+            {title}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary">
+            Lizards are a widespread group of squamate reptiles, with over 6,000
+            species, ranging across all continents except Antarctica
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   )
 }

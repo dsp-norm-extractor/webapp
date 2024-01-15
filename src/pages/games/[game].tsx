@@ -4,7 +4,7 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import React from "react"
 import { initialGames } from "./games-list"
 import { Chip } from "@mui/material"
-import FlexBox from "@/common/generic/flexbox"
+import { FlexBox } from "@/common/generic/flexbox.styled"
 import { titleToSlug } from "@/helpers/slug"
 import BasicModal from "@/components/modal/modal"
 interface GameProps {

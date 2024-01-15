@@ -1,19 +1,19 @@
 // pages/index.tsx
 
 import React, { useState } from "react"
-import FlexBox from "@/common/generic/flexbox"
 import SearchBar from "@/common/generic/search-bar"
 import { Chip, Divider } from "@mui/material"
-import { useRouter } from "next/router"
 import Link from "next/link"
 import { initialGames } from "./games/games-list"
 import { titleToSlug } from "@/helpers/slug"
 import { GameCard } from "@/components/game-card/game-card"
+import Masonry from "@mui/lab/Masonry"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 const Home: React.FC = () => {
   const [games, setGames] = useState(initialGames)
   const [searchTerm, setSearchTerm] = useState("")
-  const router = useRouter()
+  const matches = useMediaQuery("(min-width: 768px)")
 
   const handleSearch = (term: string) => {
     setSearchTerm(term)
@@ -36,12 +36,10 @@ const Home: React.FC = () => {
           size="small"
         />
       </Divider>
-      <FlexBox
-        gap={2}
-        wrap="wrap"
-        customStyles={{
-          flexGrow: "3",
-        }}>
+
+      <Masonry
+        columns={matches ? 3 : 1}
+        spacing={3}>
         {games.map(({ title, image }) => (
           <Link
             key={title}
@@ -52,7 +50,7 @@ const Home: React.FC = () => {
             />
           </Link>
         ))}
-      </FlexBox>
+      </Masonry>
     </div>
   )
 }

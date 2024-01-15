@@ -18,7 +18,8 @@ import {
 
 import MenuIcon from "@mui/icons-material/Menu"
 import Link from "next/link"
-import FlexBox from "../generic/flexbox"
+import { FlexBox } from "../generic/flexbox.styled"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 const drawerWidth = 240
 const navItems = [
@@ -33,6 +34,7 @@ const StyledAppBar = styled(AppBar)({
 
 export default function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const isMobile = useMediaQuery("(min-width: 600px)")
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)
@@ -56,7 +58,8 @@ export default function DrawerAppBar() {
         {navItems.map(({ label, path }) => (
           <Link
             key={label}
-            href={path}>
+            href={path}
+            passHref>
             <ListItem
               key={label}
               disablePadding>
@@ -73,6 +76,7 @@ export default function DrawerAppBar() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
+
       <StyledAppBar>
         <Toolbar>
           <IconButton
@@ -91,20 +95,22 @@ export default function DrawerAppBar() {
             fontWeight="bold">
             <Link href="/">Simple Game Rules</Link>
           </Typography>
-          <FlexBox gap={2}>
-            {navItems.map(({ label, path, variant }) => (
-              <Link
-                key={label}
-                href={path}>
-                <Button
+          {isMobile && (
+            <FlexBox gap={2}>
+              {navItems.map(({ label, path, variant }) => (
+                <Link
                   key={label}
-                  variant={variant}
-                  sx={{ fontWeight: 900, color: "whitesmoke" }}>
-                  {label}
-                </Button>
-              </Link>
-            ))}
-          </FlexBox>
+                  href={path}>
+                  <Button
+                    key={label}
+                    variant={variant}
+                    sx={{ fontWeight: 900, color: "whitesmoke" }}>
+                    {label}
+                  </Button>
+                </Link>
+              ))}
+            </FlexBox>
+          )}
         </Toolbar>
       </StyledAppBar>
       <nav>
