@@ -14,25 +14,23 @@ import {
   Typography,
   Button,
   styled,
+  useTheme,
 } from "@mui/material"
 
 import MenuIcon from "@mui/icons-material/Menu"
 import Link from "next/link"
-import FlexBox from "../generic/flexbox"
+import { FlexBox } from "../generic/flexbox.styled"
 
 const drawerWidth = 240
 const navItems = [
-  { label: "Data", path: "/data" },
+  { label: "Model", path: "/model" },
   { label: "About", path: "/about" },
-  { label: "Add New Rules", path: "/addrules", variant: "contained" },
+  { label: "Add Rules", path: "/rules" },
 ]
-
-const StyledAppBar = styled(AppBar)({
-  background: "#5a617f", // Customize your background color here
-})
 
 export default function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const theme = useTheme()
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)
@@ -56,7 +54,8 @@ export default function DrawerAppBar() {
         {navItems.map(({ label, path }) => (
           <Link
             key={label}
-            href={path}>
+            href={path}
+            passHref>
             <ListItem
               key={label}
               disablePadding>
@@ -73,7 +72,11 @@ export default function DrawerAppBar() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <StyledAppBar>
+      <AppBar
+        component="nav"
+        sx={{
+          background: theme.palette.grey[900],
+        }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -84,36 +87,43 @@ export default function DrawerAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography
-            sx={{
-              flexGrow: 1,
-            }}
             variant="h6"
-            fontWeight="bold">
+            fontWeight="bold"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             <Link href="/">Simple Game Rules</Link>
           </Typography>
-          <FlexBox gap={2}>
-            {navItems.map(({ label, path, variant }) => (
+          <FlexBox sx={{ display: { xs: "none", sm: "flex", gap: 20 } }}>
+            {navItems.map(({ label, path }) => (
               <Link
                 key={label}
                 href={path}>
                 <Button
+                  variant="contained"
                   key={label}
-                  variant={variant}
-                  sx={{ fontWeight: 900, color: "whitesmoke" }}>
+                  sx={{
+                    color: theme.palette.common.black,
+                    background: theme.palette.background.default,
+                    fontWeight: 800,
+                    ":hover": {
+                      color: theme.palette.background.default,
+                      background: theme.palette.grey[800],
+                    },
+                  }}>
                   {label}
                 </Button>
               </Link>
             ))}
           </FlexBox>
         </Toolbar>
-      </StyledAppBar>
+      </AppBar>
       <nav>
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true,
+            keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
             display: { xs: "block", sm: "none" },

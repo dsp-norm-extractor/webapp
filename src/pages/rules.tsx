@@ -1,7 +1,7 @@
 import { TextField, Button } from "@mui/material"
 import React, { useState } from "react"
 import { parseRules } from "@/helpers/parse-rules"
-import FlexBox from "@/common/generic/flexbox"
+import { FlexBox } from "@/common/generic/flexbox.styled"
 
 const exampleRules =
   "20 Questions is a classic game that has been redone with new people, places, and things. 20 Questions has creative clues that the whole family can enjoy together. The object of 20 Questions is to correctly identify well-known people, places and things through a series of clues. Kids and parents may not know the answers to the same questions, so this is a great game for the entire family. If you feel the itch to play detective and ask a bunch of questions then play 20 Questions with the entire family today."
@@ -49,8 +49,8 @@ const AddRules = () => {
   return (
     <div>
       <FlexBox
-        direction="column"
-        align="flex-end"
+        flexDirection="column"
+        alignItems="flex-end"
         gap={2}>
         <TextField
           id="outlined-textarea"

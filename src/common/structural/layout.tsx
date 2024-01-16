@@ -1,28 +1,33 @@
-import React from "react"
-import { Box, Toolbar, Typography, useTheme } from "@mui/material"
+import {
+  Box,
+  Container,
+  ThemeProvider,
+  Toolbar,
+  createTheme,
+  useTheme,
+} from "@mui/material"
 import Navbar from "./navbar"
 import Footer from "./footer"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 export default function Layout({ children }: React.PropsWithChildren) {
   const theme = useTheme()
+  const match = useMediaQuery("(min-width: 1200px)")
+  const defaultTheme = createTheme()
 
   return (
-    <>
+    <ThemeProvider theme={defaultTheme}>
       <Navbar />
       <Toolbar />
       <Box
         style={{
-          marginLeft: "auto",
-          marginRight: "auto",
-          maxWidth: "95%",
-          marginTop: theme.spacing(2),
-          marginBottom: theme.spacing(2),
-          paddingLeft: theme.spacing(30),
-          paddingRight: theme.spacing(30),
+          paddingTop: theme.spacing(4),
+          paddingBottom: theme.spacing(6),
         }}>
-        {children}
+        <Container maxWidth="lg">{children}</Container>
       </Box>
+
       <Footer />
-    </>
+    </ThemeProvider>
   )
 }

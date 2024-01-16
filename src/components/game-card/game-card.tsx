@@ -1,11 +1,10 @@
-import React from "react"
-import { Card, CardContent, Typography } from "@mui/material"
-import { styled } from "@mui/material"
 import {
-  StyledCard,
-  BackgroundImage,
-  StyledCardContent,
-} from "./game-card.styled"
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material"
 
 export const GameCard = ({
   title,
@@ -15,11 +14,27 @@ export const GameCard = ({
   image: string
 }) => {
   return (
-    <StyledCard>
-      <BackgroundImage image={image} />
-      <StyledCardContent>
-        <Typography variant="h5">{title}</Typography>
-      </StyledCardContent>
-    </StyledCard>
+    <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      <CardMedia
+        component="div"
+        sx={{
+          // 16:9
+          pt: "56.25%",
+        }}
+        image={image}
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="h2">
+          {title}
+        </Typography>
+        <Typography>
+          This is a media card. You can use this section to describe the
+          content.
+        </Typography>
+      </CardContent>
+    </Card>
   )
 }

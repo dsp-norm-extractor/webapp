@@ -1,36 +1,62 @@
-import { Paper, Container, Box, Typography, styled } from "@mui/material"
+import { Box, Typography } from "@mui/material"
+import Image from "next/image"
+import Link from "next/link"
+import { FlexBox } from "../generic/flexbox.styled"
 
-const StyledFooterPaper = styled(Paper)({
-  width: "100%",
-  // position: "fixed",
-  bottom: 0,
-  mt: "auto",
-})
-
-const StyledFooterContainer = styled(Container)({
-  display: "flex",
-  flexDirection: "column",
-})
-
-const StyledFooterBox = styled(Box)({
-  flexGrow: 1,
-  justifyContent: "center",
-  display: "flex",
-})
-
-export default function GuestFooter() {
+function Copyright() {
   return (
-    <StyledFooterPaper
-      square
-      variant="outlined">
-      <StyledFooterContainer maxWidth="lg">
-        <StyledFooterBox my={1}>SGR</StyledFooterBox>
-        <StyledFooterBox mb={2}>
-          <Typography variant="caption">
-            Copyright 2022 © Simple Game Rules
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="left">
+      {"Copyright © "}
+      {/* <Link
+        color="inherit"
+        href="https://mui.com/">
+        Your Website
+      </Link> */}
+      {new Date().getFullYear()}
+    </Typography>
+  )
+}
+
+export default function Footer() {
+  return (
+    <Box
+      sx={{ bgcolor: "backgrund.paper", p: 6 }}
+      component="footer">
+      <FlexBox
+        justifyContent="center"
+        alignItems="flex-start"
+        gap={3}>
+        <Box
+          sx={{
+            opacity: "85%",
+          }}>
+          <Image
+            src="/assets/uva-logo.png"
+            width={80}
+            height={80}
+            alt="Picture of the author"
+          />
+        </Box>
+
+        <Box>
+          <Typography
+            variant="h6"
+            align="left">
+            University of Amsterdam | Data Systems Project
           </Typography>
-        </StyledFooterBox>
-      </StyledFooterContainer>
-    </StyledFooterPaper>
+          <Typography
+            variant="subtitle1"
+            align="left"
+            color="text.secondary"
+            component="p">
+            Group D2 | TNO | Board Game Rules Norm Extractor
+          </Typography>
+          <Copyright />
+        </Box>
+      </FlexBox>
+    </Box>
   )
 }
