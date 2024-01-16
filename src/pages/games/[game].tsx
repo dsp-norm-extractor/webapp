@@ -2,7 +2,7 @@
 import { useRouter } from "next/router"
 import { GetStaticPaths, GetStaticProps } from "next"
 import React from "react"
-import { initialGames } from "./games-list"
+import { initialGames } from "../../helpers/games-list"
 import { Chip } from "@mui/material"
 import { FlexBox } from "@/common/generic/flexbox.styled"
 import { titleToSlug } from "@/helpers/slug"
@@ -75,16 +75,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<GameProps> = async ({ params }) => {
   const game = initialGames.find((g) => titleToSlug(g.title) === params?.game)
 
-  console.log(game)
-
   if (!game) {
     return {
       notFound: true,
     }
   }
 
+  // Ensure rules is an array of objects with `tag` as an array of strings
+  const rules = game.rules.map((rule) => ({
+    ...rule,
+    tag: Array.isArray(rule.tag) ? rule.tag : [rule.tag],
+  }))
+
   return {
-    props: game,
+    props: {
+      ...game,
+      rules,
+    },
     revalidate: 1,
   }
 }
