@@ -14,32 +14,27 @@ export const GameCard = ({
   image: string
 }) => {
   return (
-    <Card>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={image}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography
-            overflow="hidden"
-            textOverflow="ellipsis"
-            gutterBottom
-            variant="h6"
-            fontWeight={600}
-            component="div">
-            {title}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+    <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      <CardMedia
+        component="div"
+        sx={{
+          // 16:9
+          pt: "56.25%",
+        }}
+        image={image}
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="h2">
+          {title}
+        </Typography>
+        <Typography>
+          This is a media card. You can use this section to describe the
+          content.
+        </Typography>
+      </CardContent>
     </Card>
   )
 }

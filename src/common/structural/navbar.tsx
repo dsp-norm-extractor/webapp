@@ -23,7 +23,7 @@ import { FlexBox } from "../generic/flexbox.styled"
 
 const drawerWidth = 240
 const navItems = [
-  { label: "Data", path: "/data" },
+  { label: "Model", path: "/model" },
   { label: "About", path: "/about" },
   { label: "Add Rules", path: "/rules" },
 ]

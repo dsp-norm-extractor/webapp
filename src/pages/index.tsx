@@ -2,12 +2,11 @@
 
 import React, { useState } from "react"
 import SearchBar from "@/common/generic/search-bar"
-import { Chip, Divider } from "@mui/material"
+import { Chip, Container, Divider, Grid } from "@mui/material"
 import Link from "next/link"
 import { initialGames } from "./games/games-list"
 import { titleToSlug } from "@/helpers/slug"
 import { GameCard } from "@/components/game-card/game-card"
-import Masonry from "@mui/lab/Masonry"
 import { useMediaQuery } from "@/hooks/use-media-query"
 
 const Home: React.FC = () => {
@@ -24,34 +23,41 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div>
+    <Container maxWidth="lg">
       <SearchBar onSearch={handleSearch} />
       <Divider
         sx={{
-          mt: 5,
-          mb: 5,
+          my: 2,
         }}>
         <Chip
-          label="List of Games"
+          label="Games"
           size="small"
         />
       </Divider>
 
-      <Masonry
-        columns={matches ? 3 : 1}
-        spacing={3}>
+      {/* End hero unit */}
+      <Grid
+        container
+        spacing={4}>
         {games.map(({ title, image }) => (
-          <Link
+          <Grid
+            item
             key={title}
-            href={`/games/${titleToSlug(title)}`}>
-            <GameCard
-              image={image}
-              title={title}
-            />
-          </Link>
+            xs={12}
+            sm={6}
+            md={4}>
+            <Link
+              key={title}
+              href={`/games/${titleToSlug(title)}`}>
+              <GameCard
+                image={image}
+                title={title}
+              />
+            </Link>
+          </Grid>
         ))}
-      </Masonry>
-    </div>
+      </Grid>
+    </Container>
   )
 }
 

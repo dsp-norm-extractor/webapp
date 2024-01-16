@@ -9,7 +9,7 @@ import { StyledEngineProvider } from "@mui/material"
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
-  const name = "SGR"
+  const name = "DSP"
 
   return (
     <Fragment>

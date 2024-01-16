@@ -15,6 +15,7 @@
     "@mui/lab": "^5.0.0-alpha.160",
     "@mui/material": "^5.14.11",
     "@mui/styled-engine-sc": "^5.14.11",
+    "@mui/x-charts": "^6.18.7",
     "@mui/x-data-grid": "^6.16.1",
     "@types/d3": "^7.4.1",
     "chart.js": "^4.4.0",
