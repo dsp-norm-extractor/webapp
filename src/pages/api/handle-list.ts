@@ -13,6 +13,8 @@ export default async function handler(
         rulesList.push(component)
       )
 
+      console.log(rulesList)
+
       // Send a POST request to the backend
       const backendUrl = "http://localhost:8000/predict_frame"
       const backendResponse = await fetch(backendUrl, {

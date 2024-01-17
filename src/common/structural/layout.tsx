@@ -8,12 +8,15 @@ import {
 } from "@mui/material"
 import Navbar from "./navbar"
 import Footer from "./footer"
-import { useMediaQuery } from "@/hooks/use-media-query"
 
 export default function Layout({ children }: React.PropsWithChildren) {
   const theme = useTheme()
-  const match = useMediaQuery("(min-width: 1200px)")
   const defaultTheme = createTheme()
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  })
 
   return (
     <ThemeProvider theme={defaultTheme}>
