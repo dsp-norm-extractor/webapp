@@ -6,6 +6,7 @@ import { parseRules } from "@/helpers/parse-rules"
 import { FlexBox } from "@/common/generic/flexbox.styled"
 import Link from "next/link"
 import { titleToSlug } from "@/helpers/slug"
+import router from "next/router"
 
 type ResponseData = {
   backendData: Array<backendData>
@@ -62,7 +63,23 @@ const AddRules = () => {
 
       const data = await response.json()
       console.log(data)
+
+      // Store sentences and frames in localStorage
+      localStorage.setItem(
+        "sentencesAndFrames",
+        JSON.stringify(
+          data.backendData.map(
+            ({ sentence, frames }: { sentence: any; frames: object }) => ({
+              sentence,
+              frames,
+            })
+          )
+        )
+      )
+
       setResponseData(data)
+
+      router.push("/frame-viewer")
     }
   }
 
@@ -89,14 +106,19 @@ const AddRules = () => {
             onClick={AddExampleRules}>
             Add example rules
           </Button>
-          <Button
-            variant="contained"
-            onClick={handleSubmit}>
-            Submit
-          </Button>
+
+          <Link
+            href="/frame-viewer"
+            passHref>
+            <Button
+              variant="contained"
+              onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Link>
         </FlexBox>
       </FlexBox>
-      <Container>
+      {/* <Container>
         {responseData &&
           responseData?.backendData.map(({ sentence }, index) => (
             <ul key={titleToSlug(sentence)}>
@@ -112,7 +134,7 @@ const AddRules = () => {
               </li>
             </ul>
           ))}
-      </Container>
+      </Container> */}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   )
