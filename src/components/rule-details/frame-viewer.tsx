@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 import RuleDetails from "@/components/rule-details/rule-details"
-import { Button, Container } from "@mui/material"
+import { Button, Container, Grid, Typography } from "@mui/material"
 import { FlexBox } from "@/common/generic/flexbox.styled"
-import { Act, Fact, Duty, RuleDetailsProps } from "@/types/frames"
+import { Act, Fact, Duty } from "@/types/frames"
 
 const FrameViewer = () => {
   const router = useRouter()
@@ -60,23 +60,36 @@ const FrameViewer = () => {
   }
 
   return (
-    <Container>
-      <RuleDetails
-        title={currentSentence}
-        frames={frames}
-      />
-      <FlexBox gap={2}>
-        <Button
-          variant="contained"
-          onClick={() => navigate("prev")}>
-          Previous
-        </Button>
-        <Button
-          variant="contained"
-          onClick={() => navigate("next")}>
-          Next
-        </Button>
-      </FlexBox>
+    <Container maxWidth="lg">
+      <Grid
+        container
+        rowSpacing={3}>
+        <Grid item>
+          <FlexBox gap={2}>
+            <Typography
+              variant="h5"
+              fontWeight={500}>{`Selected sentence: ${currentIndex + 1} / ${
+              sentencesAndFrames.length
+            }`}</Typography>
+            <Button
+              variant="contained"
+              onClick={() => navigate("prev")}
+              disabled={currentIndex === 0}>
+              Previous
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => navigate("next")}
+              disabled={currentIndex === sentencesAndFrames.length - 1}>
+              Next
+            </Button>
+          </FlexBox>
+        </Grid>
+        <RuleDetails
+          title={currentSentence}
+          frames={frames}
+        />
+      </Grid>
     </Container>
   )
 }
