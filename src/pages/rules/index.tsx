@@ -118,23 +118,6 @@ const AddRules = () => {
           </Link>
         </FlexBox>
       </FlexBox>
-      {/* <Container>
-        {responseData &&
-          responseData?.backendData.map(({ sentence }, index) => (
-            <ul key={titleToSlug(sentence)}>
-              <li>
-                <Link
-                  color="inherit"
-                  href={`/rules/[sentence]?sentence=${encodeURIComponent(
-                    sentence
-                  )}`}
-                  passHref>
-                  {sentence}
-                </Link>
-              </li>
-            </ul>
-          ))}
-      </Container> */}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   )

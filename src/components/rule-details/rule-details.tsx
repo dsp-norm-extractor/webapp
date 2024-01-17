@@ -9,9 +9,18 @@ import {
   Grid,
   TableContainer,
   Typography,
+  Chip,
+  Divider,
+  Button,
+  IconButton,
 } from "@mui/material"
 import React from "react"
 import Title from "../data/title"
+
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
+import DeleteIcon from "@mui/icons-material/Delete"
+import { FlexBox } from "@/common/generic/flexbox.styled"
+
 const RuleDetails: React.FC<RuleDetailsProps> = ({ title, frames }) => {
   return (
     <>
@@ -23,6 +32,13 @@ const RuleDetails: React.FC<RuleDetailsProps> = ({ title, frames }) => {
           fontWeight={800}>
           {title}
         </Typography>
+        <Divider
+          textAlign="left"
+          sx={{
+            mt: 2,
+          }}>
+          <Chip label="Frames for selected sentence" />
+        </Divider>
       </Grid>
       {Object.entries(frames).map(
         (
@@ -39,20 +55,22 @@ const RuleDetails: React.FC<RuleDetailsProps> = ({ title, frames }) => {
                   elevation={5}
                   sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <TableContainer>
-                    <Title>
-                      {`${
-                        category.charAt(0).toUpperCase() + category.slice(1)
-                      }`}
-                    </Title>
+                    <FlexBox
+                      alignItems="flex-start"
+                      justifyContent="space-between">
+                      <Title>
+                        {`${
+                          category.charAt(0).toUpperCase() + category.slice(1)
+                        }`}
+                      </Title>
+                      <IconButton
+                        color="error"
+                        aria-label="delete-frame">
+                        <DeleteIcon />
+                      </IconButton>
+                    </FlexBox>
+
                     <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Key</TableCell>
-                          <TableCell style={{ textAlign: "left" }}>
-                            Value
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
                       <TableBody>
                         {data.map((act: any, index: any) => (
                           <React.Fragment key={index}>
@@ -75,6 +93,16 @@ const RuleDetails: React.FC<RuleDetailsProps> = ({ title, frames }) => {
           }
         }
       )}
+      <Grid
+        item
+        xs={4}>
+        <Button
+          component="label"
+          variant="outlined"
+          startIcon={<AddCircleOutlineIcon />}>
+          Add Frame
+        </Button>
+      </Grid>
     </>
   )
 }

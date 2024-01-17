@@ -5,6 +5,7 @@ import RuleDetails from "@/components/rule-details/rule-details"
 import { Button, Container, Grid, Typography } from "@mui/material"
 import { FlexBox } from "@/common/generic/flexbox.styled"
 import { Act, Fact, Duty } from "@/types/frames"
+import SaveIcon from "@mui/icons-material/Save"
 
 const FrameViewer = () => {
   const router = useRouter()
@@ -82,6 +83,13 @@ const FrameViewer = () => {
               onClick={() => navigate("next")}
               disabled={currentIndex === sentencesAndFrames.length - 1}>
               Next
+            </Button>
+            <Button
+              component="label"
+              color="secondary"
+              variant="contained"
+              startIcon={<SaveIcon />}>
+              Save
             </Button>
           </FlexBox>
         </Grid>
