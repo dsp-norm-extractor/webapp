@@ -4,15 +4,20 @@ import { useRouter } from "next/router"
 import RuleDetails from "@/components/rule-details/rule-details"
 import { Button, Container } from "@mui/material"
 import { FlexBox } from "@/common/generic/flexbox.styled"
+import { Act, Fact, Duty, RuleDetailsProps } from "@/types/frames"
 
 const FrameViewer = () => {
   const router = useRouter()
   const [sentencesAndFrames, setSentencesAndFrames] = useState<
-    { sentence: string; frames: { [key: string]: any } }[]
+    { sentence: string; frames: any }[]
   >([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [currentSentence, setCurrentSentence] = useState<string>("")
-  const [frames, setFrames] = useState<{ [key: string]: string }>({})
+  const [frames, setFrames] = useState<{
+    acts: Act[]
+    facts: Fact[]
+    duties: Duty[]
+  }>({ acts: [], facts: [], duties: [] })
 
   useEffect(() => {
     // Retrieve sentences and frames from localStorage
