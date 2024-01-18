@@ -5,6 +5,7 @@ import Head from "next/head"
 import { Fragment } from "react"
 import { useRouter } from "next/router"
 import { StyledEngineProvider } from "@mui/material"
+import { Toaster } from "react-hot-toast"
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -37,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Layout>
       </StyledEngineProvider>
+      <Toaster toastOptions={{ duration: 2000 }} />
     </Fragment>
   )
 }

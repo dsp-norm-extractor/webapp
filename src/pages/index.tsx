@@ -12,7 +12,6 @@ import { useMediaQuery } from "@/hooks/use-media-query"
 const Home: React.FC = () => {
   const [games, setGames] = useState(initialGames)
   const [searchTerm, setSearchTerm] = useState("")
-  const matches = useMediaQuery("(min-width: 768px)")
 
   const handleSearch = (term: string) => {
     setSearchTerm(term)
@@ -34,8 +33,6 @@ const Home: React.FC = () => {
           size="small"
         />
       </Divider>
-
-      {/* End hero unit */}
       <Grid
         container
         spacing={4}>

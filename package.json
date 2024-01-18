@@ -29,6 +29,7 @@
     "react-admin": "^4.14.5",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "latest",
+    "react-hot-toast": "^2.4.1",
     "react-inner-image-zoom": "^3.0.2",
     "react-spring": "^9.7.3",
     "react-svg-pan-zoom": "^3.12.1",
