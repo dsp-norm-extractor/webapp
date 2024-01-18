@@ -5,8 +5,8 @@ import React, { useState } from "react"
 import { parseRules } from "@/helpers/parse-rules"
 import { FlexBox } from "@/common/generic/flexbox.styled"
 import Link from "next/link"
-import { titleToSlug } from "@/helpers/slug"
 import router from "next/router"
+import toast from "react-hot-toast"
 
 type ResponseData = {
   backendData: Array<backendData>
@@ -25,6 +25,7 @@ const AddRules = () => {
   const [text, setText] = useState("")
   const [error, setError] = useState("")
   const [responseData, setResponseData] = useState<ResponseData>()
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value)
@@ -41,6 +42,9 @@ const AddRules = () => {
     if (text.trim() === "") {
       setError("Please enter some text before submitting.")
     } else {
+      setLoading(true)
+      const toastId = toast.loading("Fetching data from API")
+
       const parsedRules = parseRules(text)
 
       // Only clear the text and error if the text is not empty
@@ -48,38 +52,46 @@ const AddRules = () => {
       setError("")
 
       // Send the parsed rules data to the API route
-      const response = await fetch("/api/handle-list", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ rules: parsedRules }),
-      })
+      try {
+        const response = await fetch("/api/handle-list", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rules: parsedRules }),
+        })
 
-      if (!response.ok) {
-        setError("The API is not working.")
-        return
-      }
+        if (!response.ok) {
+          throw new Error(`There was an error ${response.status}`)
+        }
 
-      const data = await response.json()
-      console.log(data)
+        const data = await response.json()
+        console.log(data)
 
-      // Store sentences and frames in localStorage
-      localStorage.setItem(
-        "sentencesAndFrames",
-        JSON.stringify(
-          data.backendData.map(
-            ({ sentence, frames }: { sentence: any; frames: object }) => ({
-              sentence,
-              frames,
-            })
+        // Store sentences and frames in localStorage
+        localStorage.setItem(
+          "sentencesAndFrames",
+          JSON.stringify(
+            data.backendData.map(
+              ({ sentence, frames }: { sentence: string; frames: object }) => ({
+                sentence,
+                frames,
+              })
+            )
           )
         )
-      )
 
-      setResponseData(data)
+        setResponseData(data)
 
-      router.push("/frame-viewer")
+        router.push("/frame-viewer")
+
+        toast.success("Retrieval successful.", { id: toastId })
+      } catch (error: any) {
+        setError(error.message)
+        toast.error(error.message, { id: toastId })
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
@@ -118,7 +130,7 @@ const AddRules = () => {
           </Link>
         </FlexBox>
       </FlexBox>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
     </div>
   )
 }
