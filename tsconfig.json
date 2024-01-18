@@ -14,8 +14,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+    },
   },
   "include": [
     "next-env.d.ts",
@@ -24,7 +24,7 @@
     "src/pages/api/hello.js",
     "db.js",
     "src/pages/api-test.tsx",
-    "src/components/modal"
+    "src/components/modal",
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

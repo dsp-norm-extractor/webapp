@@ -1,11 +1,12 @@
-import * as React from "react"
-import Link from "@mui/material/Link"
-import Table from "@mui/material/Table"
-import TableBody from "@mui/material/TableBody"
-import TableCell from "@mui/material/TableCell"
-import TableHead from "@mui/material/TableHead"
-import TableRow from "@mui/material/TableRow"
-import Title from "./title"
+import * as React from 'react'
+
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+
+import { Title } from '@/components/common/generic/title'
 
 // Generate Order Data
 function createData(id: number, sentence: string, accuracy: number) {
@@ -13,36 +14,24 @@ function createData(id: number, sentence: string, accuracy: number) {
 }
 
 const rows = [
-  createData(
-    0,
-    "20 Questions is a classic game that has been redone with new people, places, and things.",
-    18
-  ),
-  createData(
-    1,
-    "20 Questions has creative clues that the whole family can enjoy together.",
-    14
-  ),
+  createData(0, '20 Questions is a classic game that has been redone with new people, places, and things.', 18),
+  createData(1, '20 Questions has creative clues that the whole family can enjoy together.', 14),
   createData(
     2,
-    "The object of 20 Questions is to correctly identify well-known people, places and things through a series of clues.",
-    57
+    'The object of 20 Questions is to correctly identify well-known people, places and things through a series of clues.',
+    57,
   ),
   createData(
     3,
-    "Kids and parents may not know the answers to the same questions, so this is a great game for the entire family.",
-    85
+    'Kids and parents may not know the answers to the same questions, so this is a great game for the entire family.',
+    85,
   ),
   createData(
     4,
-    "If you feel the itch to play detective and ask a bunch of questions then play 20 Questions with the entire family today.",
-    75
+    'If you feel the itch to play detective and ask a bunch of questions then play 20 Questions with the entire family today.',
+    75,
   ),
 ]
-
-function preventDefault(event: React.MouseEvent) {
-  event.preventDefault()
-}
 
 export default function Sentences() {
   return (
@@ -67,13 +56,6 @@ export default function Sentences() {
           ))}
         </TableBody>
       </Table>
-      {/* <Link
-        color="primary"
-        href="#"
-        onClick={preventDefault}
-        sx={{ mt: 3 }}>
-        See more orders
-      </Link> */}
     </React.Fragment>
   )
 }

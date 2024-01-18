@@ -1,26 +1,21 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "POST") {
+export const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'POST') {
     try {
       const { rules } = req.body
       const rulesList: string[] = []
 
-      rules.map(({ component }: { component: string }) =>
-        rulesList.push(component)
-      )
+      rules.map(({ component }: { component: string }) => rulesList.push(component))
 
       console.log(rulesList)
 
       // Send a POST request to the backend
-      const backendUrl = "http://localhost:8000/predict_frame"
+      const backendUrl = 'http://localhost:8000/predict_frame'
       const backendResponse = await fetch(backendUrl, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(rulesList),
       })
@@ -31,14 +26,14 @@ export default async function handler(
         res.status(200).json({ success: true, backendData })
       } else {
         // Backend returned an error
-        console.error("Backend error:", backendResponse.statusText)
-        res.status(500).json({ success: false, error: "Backend Error" })
+        console.error('Backend error:', backendResponse.statusText)
+        res.status(500).json({ success: false, error: 'Backend Error' })
       }
     } catch (error) {
-      console.error("Error processing rules:", error)
-      res.status(500).json({ success: false, error: "Internal Server Error" })
+      console.error('Error processing rules:', error)
+      res.status(500).json({ success: false, error: 'Internal Server Error' })
     }
   } else {
-    res.status(405).json({ success: false, error: "Method Not Allowed" })
+    res.status(405).json({ success: false, error: 'Method Not Allowed' })
   }
 }

@@ -1,22 +1,13 @@
-import {
-  Box,
-  Container,
-  ThemeProvider,
-  Toolbar,
-  createTheme,
-  useTheme,
-} from "@mui/material"
-import Navbar from "./navbar"
-import Footer from "./footer"
+import { PropsWithChildren } from 'react'
 
-export default function Layout({ children }: React.PropsWithChildren) {
+import { Box, Container, ThemeProvider, Toolbar, createTheme, useTheme } from '@mui/material'
+
+import { Footer } from './footer'
+import { Navbar } from './navbar'
+
+export default function Layout({ children }: PropsWithChildren) {
   const theme = useTheme()
   const defaultTheme = createTheme()
-  const darkTheme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  })
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -26,7 +17,8 @@ export default function Layout({ children }: React.PropsWithChildren) {
         style={{
           paddingTop: theme.spacing(4),
           paddingBottom: theme.spacing(6),
-        }}>
+        }}
+      >
         <Container maxWidth="lg">{children}</Container>
       </Box>
 

@@ -1,27 +1,19 @@
-import React from "react"
-import { Typography, Box } from "@mui/material"
+import React from 'react'
+
+import { Typography, Box } from '@mui/material'
 
 const AboutPage = () => {
-  const names = ["Atanas", "Dimitrios", "Ioannis", "Rhea"]
-
   return (
     <Box>
-      <Typography
-        variant="h2"
-        fontWeight="bold"
-        gutterBottom>
+      <Typography variant="h2" fontWeight="bold" gutterBottom>
         Simple Game Rules
       </Typography>
 
-      <Typography
-        variant="h4"
-        gutterBottom>
+      <Typography variant="h4" gutterBottom>
         Our Purpose
       </Typography>
 
-      <Typography
-        variant="body1"
-        style={{ marginBottom: "20px" }}>
+      <Typography variant="body1" style={{ marginBottom: '20px' }}>
         We do have a purpose.
       </Typography>
     </Box>

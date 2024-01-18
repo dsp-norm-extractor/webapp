@@ -1,12 +1,15 @@
+/* eslint-disable no-unused-vars */
 // pages/rules/index.tsx
 
-import { TextField, Button, Container } from "@mui/material"
-import React, { useState } from "react"
-import { parseRules } from "@/helpers/parse-rules"
-import { FlexBox } from "@/common/generic/flexbox.styled"
-import Link from "next/link"
-import router from "next/router"
-import toast from "react-hot-toast"
+import React, { useState } from 'react'
+
+import { TextField, Button } from '@mui/material'
+import Link from 'next/link'
+import router from 'next/router'
+import toast from 'react-hot-toast'
+
+import { FlexBox } from '@/components/common/generic/flexbox.styled'
+import { parseRules } from '@/helpers/parse-rules'
 
 type ResponseData = {
   backendData: Array<backendData>
@@ -19,17 +22,16 @@ type backendData = {
 }
 
 const exampleRules =
-  "20 Questions is a classic game that has been redone with new people, places, and things. 20 Questions has creative clues that the whole family can enjoy together. The object of 20 Questions is to correctly identify well-known people, places and things through a series of clues. Kids and parents may not know the answers to the same questions, so this is a great game for the entire family. If you feel the itch to play detective and ask a bunch of questions then play 20 Questions with the entire family today."
+  '20 Questions is a classic game that has been redone with new people, places, and things. 20 Questions has creative clues that the whole family can enjoy together. The object of 20 Questions is to correctly identify well-known people, places and things through a series of clues. Kids and parents may not know the answers to the same questions, so this is a great game for the entire family. If you feel the itch to play detective and ask a bunch of questions then play 20 Questions with the entire family today.'
 
 const AddRules = () => {
-  const [text, setText] = useState("")
-  const [error, setError] = useState("")
+  const [text, setText] = useState('')
+  const [error, setError] = useState('')
   const [responseData, setResponseData] = useState<ResponseData>()
-  const [loading, setLoading] = useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value)
-    setError("") // clear error message when user types
+    setError('') // clear error message when user types
   }
 
   const AddExampleRules = () => {
@@ -39,24 +41,23 @@ const AddRules = () => {
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
 
-    if (text.trim() === "") {
-      setError("Please enter some text before submitting.")
+    if (text.trim() === '') {
+      setError('Please enter some text before submitting.')
     } else {
-      setLoading(true)
-      const toastId = toast.loading("Fetching data from API")
+      const toastId = toast.loading('Fetching data from API')
 
       const parsedRules = parseRules(text)
 
       // Only clear the text and error if the text is not empty
-      setText("")
-      setError("")
+      setText('')
+      setError('')
 
       // Send the parsed rules data to the API route
       try {
-        const response = await fetch("/api/handle-list", {
-          method: "POST",
+        const response = await fetch('/api/handle-list', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ rules: parsedRules }),
         })
@@ -70,37 +71,30 @@ const AddRules = () => {
 
         // Store sentences and frames in localStorage
         localStorage.setItem(
-          "sentencesAndFrames",
+          'sentencesAndFrames',
           JSON.stringify(
-            data.backendData.map(
-              ({ sentence, frames }: { sentence: string; frames: object }) => ({
-                sentence,
-                frames,
-              })
-            )
-          )
+            data.backendData.map(({ sentence, frames }: { sentence: string; frames: object }) => ({
+              sentence,
+              frames,
+            })),
+          ),
         )
 
         setResponseData(data)
 
-        router.push("/frame-viewer")
+        router.push('/frame-viewer')
 
-        toast.success("Retrieval successful.", { id: toastId })
+        toast.success('Retrieval successful.', { id: toastId })
       } catch (error: any) {
         setError(error.message)
         toast.error(error.message, { id: toastId })
-      } finally {
-        setLoading(false)
       }
     }
   }
 
   return (
     <div>
-      <FlexBox
-        flexDirection="column"
-        alignItems="flex-end"
-        gap={2}>
+      <FlexBox flexDirection="column" alignItems="flex-end" gap={2}>
         <TextField
           id="outlined-textarea"
           label="Add Game Rules"
@@ -113,18 +107,12 @@ const AddRules = () => {
           error={!!error}
         />
         <FlexBox gap={2}>
-          <Button
-            variant="outlined"
-            onClick={AddExampleRules}>
+          <Button variant="outlined" onClick={AddExampleRules}>
             Add example rules
           </Button>
 
-          <Link
-            href="/frame-viewer"
-            passHref>
-            <Button
-              variant="contained"
-              onClick={handleSubmit}>
+          <Link href="/frame-viewer" passHref>
+            <Button variant="contained" onClick={handleSubmit}>
               Submit
             </Button>
           </Link>
