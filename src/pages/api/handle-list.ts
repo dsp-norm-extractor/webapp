@@ -37,3 +37,5 @@ export const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).json({ success: false, error: 'Method Not Allowed' })
   }
 }
+
+export default apiHandler

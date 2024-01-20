@@ -22,8 +22,7 @@ type backendData = {
 }
 
 const exampleRules =
-  '20 Questions is a classic game that has been redone with new people, places, and things. 20 Questions has creative clues that the whole family can enjoy together. The object of 20 Questions is to correctly identify well-known people, places and things through a series of clues. Kids and parents may not know the answers to the same questions, so this is a great game for the entire family. If you feel the itch to play detective and ask a bunch of questions then play 20 Questions with the entire family today.'
-
+  "If the other players can't do so, then on the original player's next turn, they may pair up their 5 with the 2 and the 3. Before gameplay can begin, a caller must be selected. The caller shuffles both decks and then passes out five cards, faced up, to each player."
 const AddRules = () => {
   const [text, setText] = useState('')
   const [error, setError] = useState('')
@@ -76,8 +75,8 @@ const AddRules = () => {
             data.backendData.map(({ sentence, frames }: { sentence: string; frames: object }) => ({
               sentence,
               frames,
-            })),
-          ),
+            }))
+          )
         )
 
         setResponseData(data)
