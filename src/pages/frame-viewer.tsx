@@ -1,7 +1,8 @@
 // pages/frame-viewer.tsx"
 
-import FrameViewer from "@/components/rule-details/frame-viewer"
-import { Container } from "@mui/material"
+import { Container } from '@mui/material'
+
+import FrameViewer from '@/components/rule-details/frame-viewer'
 
 const FrameViewerPage = () => {
   return (

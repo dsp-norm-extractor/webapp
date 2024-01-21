@@ -1,12 +1,15 @@
 // pages/games/[game].tsx
-import { useRouter } from "next/router"
-import { GetStaticPaths, GetStaticProps } from "next"
-import React from "react"
-import { initialGames } from "../../helpers/games-list"
-import { Chip } from "@mui/material"
-import { FlexBox } from "@/common/generic/flexbox.styled"
-import { titleToSlug } from "@/helpers/slug"
-import BasicModal from "@/components/modal/modal"
+import React from 'react'
+
+import { Chip } from '@mui/material'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { useRouter } from 'next/router'
+
+import { FlexBox } from '@/components/common/generic/flexbox.styled'
+import { titleToSlug } from '@/helpers/slug'
+
+import { initialGames } from '../../helpers/games-list'
+
 interface GameProps {
   title: string
   image: string
@@ -28,7 +31,6 @@ const Game: React.FC<GameProps> = ({ title, rules }) => {
   return (
     <div>
       <h1>{title}</h1>
-      <BasicModal />
       <div>
         <ol>
           {rules.map(({ sentence, tag }, index) => (
@@ -39,13 +41,7 @@ const Game: React.FC<GameProps> = ({ title, rules }) => {
                   <Chip
                     key={singltag}
                     label={singltag}
-                    color={
-                      singltag === "duty"
-                        ? "primary"
-                        : singltag === "act"
-                        ? "secondary"
-                        : "success"
-                    }
+                    color={singltag === 'duty' ? 'primary' : singltag === 'act' ? 'secondary' : 'success'}
                   />
                 ))
               ) : (

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -18,6 +19,7 @@
     "@mui/x-charts": "^6.18.7",
     "@mui/x-data-grid": "^6.16.1",
     "@types/d3": "^7.4.1",
+    "babel-plugin-module-resolver": "^5.0.0",
     "chart.js": "^4.4.0",
     "d3": "^7.8.5",
     "dotenv": "^16.3.1",
@@ -36,15 +38,22 @@
     "react-svg-pan-zoom-loader": "^1.6.1",
     "react-zoom-pan-pinch": "^3.1.0",
     "recharts": "^2.8.0",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@types/react-svg-pan-zoom": "^3.3.6",
+    "@types/uuid": "^9.0.7",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"
-  }
+  },
+  "description": "Eslint Config for WebApp",
+  "main": "index.js",
+  "repository": "https://github.com/dsp-norm-extractor/webapp.git",
+  "author": "Atanas Yonkov <atanasyonkov1@gmail.com>",
+  "license": "MIT"
 }
