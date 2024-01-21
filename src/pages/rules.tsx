@@ -10,6 +10,7 @@ import toast from 'react-hot-toast'
 
 import { FlexBox } from '@/components/common/generic/flexbox.styled'
 import { parseRules } from '@/helpers/parse-rules'
+import { Frames } from '@/types/frames'
 
 type ResponseData = {
   backendData: Array<backendData>
@@ -25,15 +26,22 @@ const exampleRules =
   "If the other players can't do so, then on the original player's next turn, they may pair up their 5 with the 2 and the 3. Before gameplay can begin, a caller must be selected. The caller shuffles both decks and then passes out five cards, faced up, to each player."
 const AddRules = () => {
   const [text, setText] = useState('')
+  const [gameTitle, setGameTitle] = useState('')
   const [error, setError] = useState('')
   const [responseData, setResponseData] = useState<ResponseData>()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value)
+    setGameTitle(event.target.value)
     setError('') // clear error message when user types
   }
 
+  const handleGameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGameTitle(event.target.value)
+  }
+
   const AddExampleRules = () => {
+    setGameTitle('Monopoly')
     setText(exampleRules)
   }
 
@@ -51,7 +59,6 @@ const AddRules = () => {
       setText('')
       setError('')
 
-      // Send the parsed rules data to the API route
       try {
         const response = await fetch('/api/handle-list', {
           method: 'POST',
@@ -66,18 +73,18 @@ const AddRules = () => {
         }
 
         const data = await response.json()
-        console.log(data)
 
-        // Store sentences and frames in localStorage
-        localStorage.setItem(
-          'sentencesAndFrames',
-          JSON.stringify(
-            data.backendData.map(({ sentence, frames }: { sentence: string; frames: object }) => ({
-              sentence,
-              frames,
-            }))
-          )
-        )
+        // Create a new object with game title and details
+        const gameDetails = {
+          game: gameTitle,
+          details: data.backendData.map(({ sentence, frames }: { sentence: string; frames: Frames }) => ({
+            sentence,
+            frames,
+          })),
+        }
+
+        // Store this object in localStorage
+        localStorage.setItem('gameDetails', JSON.stringify(gameDetails))
 
         setResponseData(data)
 
@@ -94,6 +101,14 @@ const AddRules = () => {
   return (
     <div>
       <FlexBox flexDirection="column" alignItems="flex-end" gap={2}>
+        <TextField
+          id="game-title"
+          label="Game Title"
+          fullWidth
+          value={gameTitle}
+          placeholder="Game title"
+          onChange={handleGameChange}
+        />
         <TextField
           id="outlined-textarea"
           label="Add Game Rules"

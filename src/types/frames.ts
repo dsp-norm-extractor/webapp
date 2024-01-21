@@ -1,5 +1,5 @@
 export type Act = {
-  id: number
+  id: string
   act: string
   actor: string
   action: string
@@ -16,7 +16,7 @@ export type Act = {
 }
 
 export type Fact = {
-  id: number
+  id: string
   fact: string
   function: string[]
   sources: string[]
@@ -24,7 +24,7 @@ export type Fact = {
 }
 
 export type Duty = {
-  id: number
+  id: string
   duty: string
   dutyHolder: string
   claimant: string
@@ -43,6 +43,11 @@ export type Frames = {
 export type SentenceAndFrames = {
   sentence: string
   frames: Frames
+}
+
+export type GameDetails = {
+  game: string
+  details: SentenceAndFrames[]
 }
 
 type HandleDeleteFrameType = (sentence: string, index: number) => void

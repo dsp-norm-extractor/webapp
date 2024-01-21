@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { FC, KeyboardEvent, SyntheticEvent, useRef, useState } from 'react'
+import React, { ChangeEvent, FC, KeyboardEvent, SyntheticEvent, useEffect, useRef, useState } from 'react'
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -21,10 +21,8 @@ import {
   Grow,
   MenuList,
   Popper,
-  InputAdornment,
   FormControl,
   Input,
-  InputLabel,
   FormHelperText,
 } from '@mui/material'
 
@@ -32,22 +30,19 @@ import { FlexBox } from '@/components/common/generic/flexbox.styled'
 import { Title } from '@/components/common/generic/title'
 import { RuleDetailsProps } from '@/types/frames'
 
-const RuleDetails: FC<
-  RuleDetailsProps & { onDelete: (sentnce: string, index: number) => void } & {
-    onFrameAdd: (sentence: string, frameType: string) => void
-  } & {
-    onFrameEdit: (sentence: string, frame: number, field: string, fipayload: any) => void
-  }
-> = ({ title, frames, onDelete, onFrameAdd, onFrameEdit }) => {
+const RuleDetails = ({ sentence, frames, onDelete, onFrameAdd, onFrameEdit }: RuleDetailsProps) => {
   const [open, setOpen] = useState(false)
 
-  const [inputValues, setInputValues] = useState<any>(
-    Object.entries(frames).map(() => ({
-      acts: {},
-      facts: {},
-      duties: {},
-    })),
-  )
+  const [inputValues, setInputValues] = useState<any>(frames)
+
+  useEffect(() => {
+    setInputValues(JSON.parse(JSON.stringify(frames)))
+  }, [frames])
+
+  useEffect(() => {
+    const clonedFrames = JSON.parse(JSON.stringify(frames))
+    setInputValues(clonedFrames)
+  }, [frames])
 
   const anchorRef = useRef<HTMLButtonElement>(null)
 
@@ -72,9 +67,32 @@ const RuleDetails: FC<
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open)
-  React.useEffect(() => {
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    category: string,
+    frameIndex: number,
+    key: string
+  ) => {
+    const newValue = event.target.value
+
+    // Create updatedInputValues here
+    let updatedInputValues = JSON.parse(JSON.stringify(inputValues))
+
+    if (!updatedInputValues[category]) {
+      updatedInputValues[category] = []
+    }
+    if (!updatedInputValues[category][frameIndex]) {
+      updatedInputValues[category][frameIndex] = {}
+    }
+
+    updatedInputValues[category][frameIndex][key] = newValue
+
+    setInputValues(updatedInputValues)
+    onFrameEdit(sentence, updatedInputValues)
+  }
+
+  const prevOpen = useRef(open)
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus()
     }
@@ -86,7 +104,7 @@ const RuleDetails: FC<
     <>
       <Grid item xs={12}>
         <Typography variant="h6" fontWeight={800}>
-          {title}
+          {sentence}
         </Typography>
         <Divider
           textAlign="right"
@@ -110,7 +128,7 @@ const RuleDetails: FC<
                       color="error"
                       variant="outlined"
                       startIcon={<DeleteIcon />}
-                      onClick={() => onDelete(title, index)}
+                      onClick={() => onDelete(sentence, index)}
                     >
                       Delete
                     </Button>
@@ -125,39 +143,9 @@ const RuleDetails: FC<
                               <TableCell>{key}</TableCell>
                               <TableCell>
                                 <FormControl fullWidth sx={{ m: 1 }} variant="standard">
-                                  <InputLabel htmlFor={`key-value-edit-${frameIndex}-${key}`}>{key}</InputLabel>
-                                  <Input
-                                    id={`key-value-edit-${frameIndex}-${key}`}
-                                    value={inputValues[frameIndex][category][key] || ''}
-                                    endAdornment={
-                                      <InputAdornment position="end">
-                                        <Button
-                                          id="composition-button"
-                                          variant="text"
-                                          color="info"
-                                          endIcon={<TaskIcon />}
-                                          size="small"
-                                          onClick={() =>
-                                            onFrameEdit(title, frameIndex, key, inputValues[frameIndex][category][key])
-                                          }
-                                        >
-                                          validate
-                                        </Button>
-                                      </InputAdornment>
-                                    }
-                                    onChange={(e) =>
-                                      setInputValues((inputValues: any) => {
-                                        const newInputValues = [...inputValues]
-                                        newInputValues[frameIndex][category] = {
-                                          ...newInputValues[frameIndex][category],
-                                          [key]: e.target.value,
-                                        }
-                                        return newInputValues
-                                      })
-                                    }
-                                  />
-                                  <FormHelperText id="standard-weight-helper-text">{`${key}: ${JSON.stringify(
-                                    value,
+                                  <Input value={value} onChange={(event) => handleChange(event, category, frameIndex, key)} />
+                                  <FormHelperText id="standard-weight-helper-text">{`Current Value for: ${key}: ${JSON.stringify(
+                                    value
                                   )}`}</FormHelperText>
                                 </FormControl>
                               </TableCell>
@@ -203,9 +191,9 @@ const RuleDetails: FC<
                       aria-labelledby="composition-button"
                       onKeyDown={handleListKeyDown}
                     >
-                      <MenuItem onClick={() => onFrameAdd(title, 'act')}>Act</MenuItem>
-                      <MenuItem onClick={() => onFrameAdd(title, 'fact')}>Fact</MenuItem>
-                      <MenuItem onClick={() => onFrameAdd(title, 'duty')}>Duty</MenuItem>
+                      <MenuItem onClick={() => onFrameAdd(sentence, 'act')}>Act</MenuItem>
+                      <MenuItem onClick={() => onFrameAdd(sentence, 'fact')}>Fact</MenuItem>
+                      <MenuItem onClick={() => onFrameAdd(sentence, 'duty')}>Duty</MenuItem>
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>
