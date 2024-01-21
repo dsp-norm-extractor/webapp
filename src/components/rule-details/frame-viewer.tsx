@@ -80,16 +80,13 @@ const FrameViewer = () => {
       setGameDetails({ ...gameDetails, details: updatedDetails })
       handleSaveFrame()
       toast.success('Selected frame was deleted.')
+      router.reload()
     } else {
       console.log('Sentence not found')
     }
   }
 
   const handleAddFrame = (sentence: string, frameType: string) => {
-    console.log(sentence, frameType)
-
-    console.log(sentence, frameType)
-
     // Find the sentence in gameDetails.details
     const sentenceIndex = gameDetails.details.findIndex((s) => s.sentence === sentence)
     if (sentenceIndex !== -1) {
@@ -127,6 +124,7 @@ const FrameViewer = () => {
       setGameDetails({ ...gameDetails, details: [...gameDetails.details] })
       handleSaveFrame()
       toast.success(`A frame of type "${frameType}" has been added.`)
+      router.reload()
     } else {
       console.log('Sentence not found')
     }
