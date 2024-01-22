@@ -103,17 +103,9 @@ const RuleDetails = ({ sentence, frames, onDelete, onFrameAdd, onFrameEdit }: Ru
   return (
     <>
       <Grid item xs={12}>
-        <Typography variant="h6" fontWeight={800}>
+        <Typography variant="body1" fontWeight={800}>
           {sentence}
         </Typography>
-        <Divider
-          textAlign="right"
-          sx={{
-            mt: 2,
-          }}
-        >
-          <Chip label="Frames" />
-        </Divider>
       </Grid>
       {Object.entries(frames).map(([category, data]: any, index: number): React.JSX.Element | undefined => {
         if (data.length > 0) {

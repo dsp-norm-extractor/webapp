@@ -11,6 +11,7 @@ import RuleDetails from '@/components/rule-details/rule-details'
 import { Frames, GameDetails } from '@/types/frames'
 import { Title } from '../common/generic/title'
 import { emptyActFrame, emptyDutyFrame, emptyFactFrame } from './empty-frames'
+import { getLocalStorage } from '@/helpers/local-storage'
 
 const FrameViewer = () => {
   const router = useRouter()
@@ -18,14 +19,17 @@ const FrameViewer = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [currentSentence, setCurrentSentence] = useState<string>('')
   const [frames, setFrames] = useState<Frames>({ acts: [], facts: [], duties: [] })
+  const [currentGameIndex, setCurrentGameIndex] = useState(0)
 
   useEffect(() => {
     const storedData = localStorage.getItem('gameDetails')
     if (storedData) {
-      const parsedData = JSON.parse(storedData)
-      setGameDetails(parsedData)
+      const allGames = JSON.parse(storedData)
+      if (allGames.length > 0 && currentGameIndex < allGames.length) {
+        setGameDetails(allGames[currentGameIndex]) // Set the specific game details
+      }
     }
-  }, [])
+  }, [currentGameIndex]) // Depend on currentGameIndex
 
   useEffect(() => {
     if (!router.isReady || !gameDetails.details.length) return
@@ -131,6 +135,29 @@ const FrameViewer = () => {
     console.log(sentence, frameType)
   }
 
+  const handleSubmitToDB = async () => {
+    const localStorage = await getLocalStorage('gameDetails')
+    console.log(localStorage)
+
+    try {
+      const response = await fetch('/api/submit-frame', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sentencesAndFrames: localStorage }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`There was an error ${response.status}`)
+      }
+
+      const data = await response.json()
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
   return (
     <Container maxWidth="lg">
       <Grid container rowSpacing={3}>
@@ -145,12 +172,14 @@ const FrameViewer = () => {
                 Next
               </Button>
             </ButtonGroup>
-            <Title>{gameDetails.game}</Title>
+            <Button variant="text" disabled>
+              {gameDetails.game}
+            </Button>
             <ButtonGroup variant="contained">
               <Button component="label" color="secondary" startIcon={<SaveIcon />} onClick={handleSaveFrame}>
                 Save
               </Button>
-              <Button color="success" startIcon={<PublishIcon />}>
+              <Button color="success" startIcon={<PublishIcon />} onClick={handleSubmitToDB}>
                 Submit
               </Button>
             </ButtonGroup>

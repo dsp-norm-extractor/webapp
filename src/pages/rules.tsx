@@ -75,16 +75,26 @@ const AddRules = () => {
         const data = await response.json()
 
         // Create a new object with game title and details
-        const gameDetails = {
+        const newGameDetails = {
           game: gameTitle,
-          details: data.backendData.map(({ sentence, frames }: { sentence: string; frames: Frames }) => ({
+          details: data.backendData.map(({ sentence, frames }: { sentence: any; frames: any }) => ({
             sentence,
             frames,
           })),
         }
 
-        // Store this object in localStorage
-        localStorage.setItem('gameDetails', JSON.stringify(gameDetails))
+        // Check if there are existing game details in localStorage
+        let existingGameDetails = JSON.parse(localStorage.getItem('gameDetails') || '[]')
+
+        // If existingGameDetails is an array, append the new game, else create a new array with the new game
+        if (Array.isArray(existingGameDetails)) {
+          existingGameDetails.push(newGameDetails)
+        } else {
+          existingGameDetails = [newGameDetails]
+        }
+
+        // Store the updated array in localStorage
+        localStorage.setItem('gameDetails', JSON.stringify(existingGameDetails))
 
         setResponseData(data)
 
