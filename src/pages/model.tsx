@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Container, Grid } from '@mui/material'
+import { Box, Typography, Paper, Container, Grid, Button } from '@mui/material'
 
 import { Chart } from '@/components/data/chart'
 import Sentences from '@/components/data/sentences'
@@ -8,7 +8,7 @@ export default function ModelData() {
   return (
     <>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Box display="flex" pb={3} alignItems="center" flexDirection={{ xs: 'column', md: 'row' }} gap={3}>
+        {/* <Box display="flex" pb={3} alignItems="center" flexDirection={{ xs: 'column', md: 'row' }} gap={3}>
           <Box flex={{ xs: '1', md: '40%' }}>
             <Typography
               fontWeight="bold"
@@ -45,7 +45,7 @@ export default function ModelData() {
               dots.
             </Typography>
           </Box>
-        </Box>
+        </Box> */}
         <Grid container spacing={3}>
           {/* Chart */}
           <Grid item xs={12} md={8} lg={9}>
@@ -78,6 +78,11 @@ export default function ModelData() {
               <Sentences />
             </Paper>
           </Grid>
+        </Grid>
+        <Grid item xs={4} mt={2}>
+          <Button variant="outlined" color="success">
+            Retrain Model
+          </Button>
         </Grid>
       </Container>
     </>
