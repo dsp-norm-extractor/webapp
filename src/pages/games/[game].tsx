@@ -1,14 +1,15 @@
 // pages/games/[game].tsx
 import React from 'react'
 
-import { Chip } from '@mui/material'
+import { Chip, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 
 import { FlexBox } from '@/components/common/generic/flexbox.styled'
 import { titleToSlug } from '@/helpers/slug'
+import InboxIcon from '@mui/icons-material/Inbox'
 
-import { initialGames } from '../../helpers/games-list'
+import fetchGamesData from '@/helpers/fetch-game-data'
 
 interface GameProps {
   title: string
@@ -29,67 +30,56 @@ const Game: React.FC<GameProps> = ({ title, rules }) => {
   }
 
   return (
-    <div>
-      <h1>{title}</h1>
-      <div>
-        <ol>
-          {rules.map(({ sentence, tag }, index) => (
-            <FlexBox key={index}>
-              <li>{sentence}</li>
-              {Array.isArray(tag) ? (
-                tag.map((singltag) => (
-                  <Chip
-                    key={singltag}
-                    label={singltag}
-                    color={singltag === 'duty' ? 'primary' : singltag === 'act' ? 'secondary' : 'success'}
-                  />
-                ))
-              ) : (
-                // Handle the case where tag is not an array, e.g., display an error message
-                <div>Invalid tag format for rule {index + 1}</div>
-              )}
-            </FlexBox>
-          ))}
-        </ol>
-      </div>
-    </div>
+    <>
+      <Typography variant="h4" fontWeight={700}>
+        {title}
+      </Typography>
+
+      {rules.map(({ sentence }, index) => (
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton disableGutters>
+              <Chip label={index ?? 'Tag'} sx={{ mr: 2 }} />
+              <ListItemText primary={sentence} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      ))}
+    </>
   )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Generate paths for all games
-  const paths = initialGames.map(({ title }) => ({
-    params: { game: titleToSlug(title) },
+  const games = await fetchGamesData()
+  const paths = games.backendData.data.map(({ game }: { game: string }) => ({
+    params: { game: titleToSlug(game) },
   }))
 
-  return {
-    paths,
-    fallback: true,
-  }
+  return { paths, fallback: true }
 }
 
-export const getStaticProps: GetStaticProps<GameProps> = async ({ params }) => {
-  const game = initialGames.find((g) => titleToSlug(g.title) === params?.game)
+export const getStaticProps: GetStaticProps<GameProps, { game: string }> = async (context) => {
+  const games = await fetchGamesData()
+  const gameSlug = context.params?.game
+  const gameData = games.backendData.data.find(({ game }: { game: string }) => titleToSlug(game) === gameSlug)
 
-  if (!game) {
-    return {
-      notFound: true,
-    }
+  if (!gameData) {
+    return { notFound: true }
   }
 
-  // Ensure rules is an array of objects with `tag` as an array of strings
-  const rules = game.rules.map((rule) => ({
-    ...rule,
-    tag: Array.isArray(rule.tag) ? rule.tag : [rule.tag],
-  }))
+  const rules = gameData.details.map((detail: { sentence: string }) => {
+    return {
+      sentence: detail.sentence,
+    }
+  })
 
   return {
     props: {
-      ...game,
-      rules,
+      title: gameData.game,
+      image: `https://picsum.photos/seed/${gameData.game}/300/200`,
+      rules: rules,
     },
     revalidate: 1,
   }
 }
-
 export default Game

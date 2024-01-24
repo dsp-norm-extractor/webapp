@@ -18,7 +18,7 @@ const Home = () => {
 
   const games = backendData?.data.map(({ game }: GameDetails) => ({
     title: game,
-    image: `https://picsum.photos/seed/${game}/300/200`, // Example image URL
+    image: `https://picsum.photos/seed/${game}/300/200`,
   }))
 
   const filteredGames =
