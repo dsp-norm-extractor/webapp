@@ -34,10 +34,11 @@ const Game: React.FC<GameProps> = ({ title, rules }) => {
       </Typography>
 
       {rules.map(({ sentence }, index) => (
-        <List>
-          <ListItem disablePadding>
+        <List key={`list-item-${index}`}>
+          <ListItem disablePadding key={`list-item-${index}`}>
             <ListItemButton
               disableGutters
+              key={`list-item-${index}`}
               href={`/frame-viewer?game=${encodeURIComponent(title)}&sentence=${encodeURIComponent(sentence)}`}
             >
               <Chip label={index ?? 'Tag'} sx={{ mr: 2 }} />

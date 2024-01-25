@@ -2,7 +2,7 @@
 
 // import PublishIcon from '@mui/icons-material/Publish'
 // import SaveIcon from '@mui/icons-material/Save'
-// import { Button, ButtonGroup, Container, Grid } from '@mui/material'
+// import { Button, ButtonGroup, CircularProgress, Container, Grid, Typography } from '@mui/material'
 // import { useRouter } from 'next/router'
 // import toast from 'react-hot-toast'
 
@@ -46,8 +46,7 @@
 //     fetchGameDetails()
 //   }, [currentSentenceIndex])
 
-//   const currentDetail = gameDetails[currentSentenceIndex]
-//   console.log(currentDetail)
+//   const currentGame = gameDetails[0]
 
 //   // useEffect(() => {
 //   //   if (currentDetail) {
@@ -63,12 +62,13 @@
 //     setCurrentSentenceIndex((prevIndex) => {
 //       if (direction === 'prev' && prevIndex > 0) {
 //         return prevIndex - 1
-//       } else if (direction === 'next' && currentDetail && prevIndex < currentDetail.details.length - 1) {
+//       } else if (direction === 'next' && currentGame && prevIndex < currentGame.details.length - 1) {
 //         return prevIndex + 1
 //       }
 //       return prevIndex
 //     })
 //   }
+
 //   // const handleFrameChange = (sentence: string, updatedFrames: Frames) => {
 //   //   const updatedDetails = gameDetails.details.map((detail) =>
 //   //     detail.sentence === sentence ? { ...detail, frames: updatedFrames } : detail
@@ -175,47 +175,55 @@
 //   //   }
 //   // }
 
-//   if (isLoading) return <p>Loading...</p>
-//   if (error) return <p>Error: {error}</p>
+//   if (isLoading) {
+//     return <CircularProgress />
+//   }
 
+//   if (error) {
+//     return <Typography color="error">{error}</Typography>
+//   }
 //   return (
 //     <Container maxWidth="lg">
-//       <Grid container rowSpacing={3}>
-//         {/* Game Navigation */}
-//         <Grid item xs={12}>
-//           <FlexBox gap={3} justifyContent="space-between" aria-label="flex-button-group">
-//             <ButtonGroup variant="outlined">
-//               <Button disabled>{`Game: ${currentSentenceIndex + 1} / ${gameDetails.length}`}</Button>
-//               <Button onClick={() => navigate('prev')} disabled={currentSentenceIndex === 0}>
-//                 Previous
-//               </Button>
-//               <Button onClick={() => navigate('next')} disabled={currentSentenceIndex === gameDetails.length - 1}>
-//                 Next
-//               </Button>
-//             </ButtonGroup>
-//             <Button variant="text" disabled>
-//               {currentDetail?.game}
-//             </Button>
-//             <ButtonGroup variant="contained">
-//               <Button component="label" color="secondary" startIcon={<SaveIcon />}>
-//                 Save
-//               </Button>
-//               <Button color="success" startIcon={<PublishIcon />}>
-//                 Submit
-//               </Button>
-//             </ButtonGroup>
-//           </FlexBox>
-//         </Grid>
-//         {currentDetail && currentDetail.details && currentDetail.details.length > 0 && (
-//           <RuleDetails
-//             sentence={currentDetail.details[currentSentenceIndex].sentence}
-//             frames={currentDetail.details[currentSentenceIndex].frames}
-//             // onFrameEdit={handleFrameChange}
-//             // onDelete={handleDeleteFrame}
-//             // onFrameAdd={handleAddFrame}
-//           />
-//         )}
-//       </Grid>
+//       {currentGame ? (
+//         <>
+//           <Grid container rowSpacing={3}>
+//             {/* Game Navigation */}
+//             <Grid item xs={12}>
+//               <FlexBox gap={3} justifyContent="space-between" aria-label="flex-button-group">
+//                 <ButtonGroup variant="outlined">
+//                   <Button disabled>{`Game: ${currentSentenceIndex + 1} / ${gameDetails.length}`}</Button>
+//                   <Button onClick={() => navigate('prev')} disabled={currentSentenceIndex === 0}>
+//                     Previous
+//                   </Button>
+//                   <Button onClick={() => navigate('next')} disabled={currentSentenceIndex === gameDetails.length - 1}>
+//                     Next
+//                   </Button>
+//                 </ButtonGroup>
+//                 <Button variant="text" disabled>
+//                   {currentGame?.game}
+//                 </Button>
+//                 <ButtonGroup variant="contained">
+//                   <Button component="label" color="secondary" startIcon={<SaveIcon />}>
+//                     Save
+//                   </Button>
+//                   <Button color="success" startIcon={<PublishIcon />}>
+//                     Submit
+//                   </Button>
+//                 </ButtonGroup>
+//               </FlexBox>
+//             </Grid>
+//             {/* <RuleDetails
+//               sentence={currentDetail.details[currentSentenceIndex].sentence}
+//               frames={currentDetail.details[currentSentenceIndex].frames}
+//               // onFrameEdit={handleFrameChange}
+//               // onDelete={handleDeleteFrame}
+//               // onFrameAdd={handleAddFrame}
+//             /> */}
+//           </Grid>
+//         </>
+//       ) : (
+//         <Typography>No game details available.</Typography>
+//       )}
 //     </Container>
 //   )
 // }
@@ -224,7 +232,13 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Container, Typography, CircularProgress } from '@mui/material'
+import { Container, Typography, CircularProgress, Grid, Button, ButtonGroup } from '@mui/material'
+import { FlexBox } from '../common/generic/flexbox.styled'
+
+import SaveIcon from '@mui/icons-material/Save'
+import PublishIcon from '@mui/icons-material/Publish'
+import RuleDetails from './rule-details'
+import { Frames, SentenceAndFrames } from '@/types/frames'
 
 // Assuming the GameDetails type
 interface GameDetails {
@@ -239,7 +253,9 @@ interface GameDetails {
 }
 
 const FrameViewer: React.FC = () => {
+  const [localEdits, setLocalEdits] = useState<SentenceAndFrames | null>(null)
   const [gameDetails, setGameDetails] = useState<GameDetails[]>([])
+  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -270,6 +286,38 @@ const FrameViewer: React.FC = () => {
     fetchGameDetails()
   }, [game, router.isReady])
 
+  const navigate = (direction: 'prev' | 'next') => {
+    setCurrentSentenceIndex((prevIndex) => {
+      if (direction === 'prev' && prevIndex > 0) {
+        return prevIndex - 1
+      } else if (direction === 'next' && gameDetails[0] && prevIndex < gameDetails[0].details.length - 1) {
+        return prevIndex + 1
+      }
+      return prevIndex
+    })
+  }
+
+  const handleLocalEdit = (editedFrames: SentenceAndFrames | null) => {
+    setLocalEdits(editedFrames)
+  }
+
+  const handleSave = () => {
+    if (!localEdits || !gameDetails) return
+
+    const updatedGameDetails: GameDetails[] = JSON.parse(JSON.stringify(gameDetails))
+
+    const currentDetail = updatedGameDetails[0].details[currentSentenceIndex]
+    const edits: Frames = localEdits as Frames
+
+    currentDetail.acts = edits.acts || currentDetail.acts
+    currentDetail.facts = edits.facts || currentDetail.facts
+    currentDetail.duties = edits.duties || currentDetail.duties
+
+    setGameDetails(updatedGameDetails)
+
+    console.log('Local changes saved')
+  }
+
   if (isLoading) {
     return <CircularProgress />
   }
@@ -278,25 +326,48 @@ const FrameViewer: React.FC = () => {
     return <Typography color="error">{error}</Typography>
   }
 
-  const currentGame = gameDetails[0] // Assuming there is always at least one game in the array
+  const currentDetail = gameDetails[0]?.details[currentSentenceIndex]
+  const frames = currentDetail ? { acts: currentDetail.acts, facts: currentDetail.facts, duties: currentDetail.duties } : null
 
   return (
     <Container maxWidth="lg">
-      {currentGame ? (
-        <>
-          <Typography variant="h4" gutterBottom>
-            {currentGame.game}
-          </Typography>
-          {currentGame.details.map((detail, index) => (
-            <div key={index}>
-              <Typography variant="h6">{detail.sentence}</Typography>
-              {/* Additional details rendering */}
-            </div>
-          ))}
-        </>
-      ) : (
-        <Typography>No game details available.</Typography>
-      )}
+      <Grid container rowSpacing={3}>
+        <Grid item xs={12}>
+          <FlexBox gap={3} justifyContent="space-between" aria-label="flex-button-group">
+            <ButtonGroup variant="outlined">
+              <Button disabled>{`Sentence: ${currentSentenceIndex + 1} / ${gameDetails[0]?.details.length}`}</Button>
+              <Button onClick={() => navigate('prev')} disabled={currentSentenceIndex === 0}>
+                Previous
+              </Button>
+              <Button onClick={() => navigate('next')} disabled={currentSentenceIndex === gameDetails[0]?.details.length - 1}>
+                Next
+              </Button>
+            </ButtonGroup>
+            <Button variant="text" disabled>
+              {gameDetails[0]?.game}
+            </Button>
+            <ButtonGroup variant="contained">
+              <Button color="secondary" startIcon={<SaveIcon />} onClick={handleSave}>
+                Save
+              </Button>
+              <Button color="success" startIcon={<PublishIcon />}>
+                Submit
+              </Button>
+            </ButtonGroup>
+          </FlexBox>
+
+          {frames && (
+            <RuleDetails
+              sentence={currentDetail.sentence}
+              frames={frames}
+              // onDelete={handleDeleteFrame}
+              onLocalEdit={handleLocalEdit}
+              // onFrameAdd={handleAddFrame}
+              // onFrameEdit={handleFrameChange}
+            />
+          )}
+        </Grid>
+      </Grid>
     </Container>
   )
 }

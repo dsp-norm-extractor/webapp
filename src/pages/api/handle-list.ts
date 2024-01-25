@@ -8,8 +8,6 @@ export const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       rules.map(({ component }: { component: string }) => rulesList.push(component))
 
-      console.log(rulesList)
-
       // Send a POST request to the backend
       const backendUrl = 'http://localhost:8000/predict_frame'
       const backendResponse = await fetch(backendUrl, {
