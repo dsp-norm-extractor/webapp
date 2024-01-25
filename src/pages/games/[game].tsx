@@ -5,9 +5,7 @@ import { Chip, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typog
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 
-import { FlexBox } from '@/components/common/generic/flexbox.styled'
 import { titleToSlug } from '@/helpers/slug'
-import InboxIcon from '@mui/icons-material/Inbox'
 
 import fetchGamesData from '@/helpers/fetch-game-data'
 
@@ -38,7 +36,10 @@ const Game: React.FC<GameProps> = ({ title, rules }) => {
       {rules.map(({ sentence }, index) => (
         <List>
           <ListItem disablePadding>
-            <ListItemButton disableGutters>
+            <ListItemButton
+              disableGutters
+              href={`/frame-viewer?game=${encodeURIComponent(title)}&sentence=${encodeURIComponent(sentence)}`}
+            >
               <Chip label={index ?? 'Tag'} sx={{ mr: 2 }} />
               <ListItemText primary={sentence} />
             </ListItemButton>

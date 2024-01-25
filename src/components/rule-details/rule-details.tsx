@@ -30,8 +30,10 @@ import { FlexBox } from '@/components/common/generic/flexbox.styled'
 import { Title } from '@/components/common/generic/title'
 import { RuleDetailsProps } from '@/types/frames'
 
-const RuleDetails = ({ sentence, frames, onDelete, onFrameAdd, onFrameEdit }: RuleDetailsProps) => {
+const RuleDetails = ({ sentence, frames, onDelete, onFrameAdd, onFrameEdit }: any) => {
   const [open, setOpen] = useState(false)
+
+  console.log({ frames })
 
   const [inputValues, setInputValues] = useState<any>(frames)
 

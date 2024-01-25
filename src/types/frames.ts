@@ -46,7 +46,7 @@ export type SentenceAndFrames = {
 }
 
 export type GameDetails = {
-  _id: number
+  _id: string
   game: string
   details: SentenceAndFrames[]
 }
