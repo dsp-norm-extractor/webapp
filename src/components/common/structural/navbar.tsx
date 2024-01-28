@@ -16,6 +16,7 @@ import {
   Typography,
   Button,
   useTheme,
+  Avatar,
 } from '@mui/material'
 import Link from 'next/link'
 
@@ -66,6 +67,8 @@ export const Navbar = () => {
           background: theme.palette.grey[900],
         }}
       >
+        {/* <Avatar alt="Remy Sharp" variant="rounded" src="/assets/tno-logo.png" sx={{ width: 56, height: 56 }} /> */}
+
         <Toolbar>
           <IconButton
             color="inherit"
@@ -77,21 +80,23 @@ export const Navbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" fontWeight="bold" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-            <Link href="/">Simple Game Rules</Link>
+            {/* <Link href="/">Simple Game Rules</Link> */}
+            {/* <Avatar alt="Remy Sharp" variant="rounded" src="/static/images/avatar/1.jpg" sx={{ width: 56, height: 56 }} /> */}
+            <Avatar alt="Remy Sharp" variant="rounded" src="/assets/uva-logo.png" sx={{ width: 56, height: 56 }} />
           </Typography>
           <FlexBox sx={{ display: { xs: 'none', sm: 'flex', gap: 20 } }}>
             {navItems.map(({ label, path }) => (
               <Link key={label} href={path}>
                 <Button
-                  variant="contained"
+                  variant="text"
                   key={label}
                   sx={{
-                    color: theme.palette.common.black,
-                    background: theme.palette.background.default,
+                    color: theme.palette.background.default,
+                    // background: theme.palette.background.default,
                     fontWeight: 800,
                     ':hover': {
                       color: theme.palette.background.default,
-                      background: theme.palette.grey[800],
+                      // background: theme.palette.grey[800],
                     },
                   }}
                 >

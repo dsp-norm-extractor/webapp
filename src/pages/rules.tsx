@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 import Link from 'next/link'
 import router from 'next/router'
 import toast from 'react-hot-toast'
@@ -85,7 +85,7 @@ const AddRules = () => {
 
   return (
     <div>
-      <FlexBox flexDirection="column" alignItems="flex-end" gap={2}>
+      <FlexBox flexDirection="column" alignItems="flex-end" justifyContent="space-between" gap={2}>
         <TextField
           id="game-title"
           label="Game Title"
@@ -106,6 +106,9 @@ const AddRules = () => {
           error={!!error}
         />
         <FlexBox gap={2}>
+          <FormGroup>
+            <FormControlLabel control={<Checkbox defaultChecked />} label="To be used in training" />
+          </FormGroup>
           <Button variant="outlined" onClick={AddExampleRules}>
             Add example rules
           </Button>
