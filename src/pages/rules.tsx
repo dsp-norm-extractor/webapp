@@ -19,7 +19,6 @@ const AddRules = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value)
-    setGameTitle(event.target.value)
     setError('')
   }
 
