@@ -8,50 +8,42 @@ import TableRow from '@mui/material/TableRow'
 
 import { Title } from '@/components/common/generic/title'
 
-// Generate Order Data
-function createData(id: number, sentence: string, accuracy: number) {
-  return { id, sentence, accuracy }
+// Generate Data for Classification Report
+function createData(category: string, precision: string | number, recall: string | number, f1Score: number, support: number) {
+  return { category, precision, recall, f1Score, support }
 }
 
 const rows = [
-  createData(0, '20 Questions is a classic game that has been redone with new people, places, and things.', 18),
-  createData(1, '20 Questions has creative clues that the whole family can enjoy together.', 14),
-  createData(
-    2,
-    'The object of 20 Questions is to correctly identify well-known people, places and things through a series of clues.',
-    57,
-  ),
-  createData(
-    3,
-    'Kids and parents may not know the answers to the same questions, so this is a great game for the entire family.',
-    85,
-  ),
-  createData(
-    4,
-    'If you feel the itch to play detective and ask a bunch of questions then play 20 Questions with the entire family today.',
-    75,
-  ),
+  // createData('fact', 0.93, 0.93, 0.93, 72),
+  // createData('act', 0.8, 0.8, 0.8, 60),
+  // createData('duty', 0.67, 0.67, 0.67, 26),
+  createData('accuracy', '', '', 0.85, 158),
+  createData('macro avg', 0.8, 0.8, 0.8, 158),
+  createData('weighted avg', 0.85, 0.85, 0.85, 158),
 ]
 
-export default function Sentences() {
+export default function ClassificationReport() {
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
+      <Title>Classification Metrics</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Sentence</TableCell>
-            {/* <TableCell>Accuracy</TableCell> */}
-            <TableCell align="right">Accuracy</TableCell>
+            <TableCell variant="head">Category</TableCell>
+            <TableCell align="right">Precision</TableCell>
+            <TableCell align="right">Recall</TableCell>
+            <TableCell align="right">F1-Score</TableCell>
+            <TableCell align="right">Support</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(({ id, sentence, accuracy }) => (
-            <TableRow key={id}>
-              <TableCell>{sentence}</TableCell>
-              {/* <TableCell>{accuracy}</TableCell> */}
-
-              <TableCell align="right">{`${accuracy} %`}</TableCell>
+          {rows.map(({ category, precision, recall, f1Score, support }) => (
+            <TableRow key={category}>
+              <TableCell>{category}</TableCell>
+              <TableCell align="right">{precision}</TableCell>
+              <TableCell align="right">{recall}</TableCell>
+              <TableCell align="right">{f1Score}</TableCell>
+              <TableCell align="right">{support}</TableCell>
             </TableRow>
           ))}
         </TableBody>

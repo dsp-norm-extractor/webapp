@@ -29,7 +29,7 @@ export const Navbar = () => {
   const navItems = [
     { label: 'Model', path: '/model' },
     { label: 'About', path: '/about' },
-    { label: 'Add Rules', path: '/rules' },
+    { label: 'Add Rules', path: '/rules', variant: 'outlined' },
   ]
 
   const handleDrawerToggle = () => {
@@ -61,15 +61,13 @@ export const Navbar = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
-        component="nav"
-        sx={{
-          background: theme.palette.grey[900],
-        }}
-      >
-        {/* <Avatar alt="Remy Sharp" variant="rounded" src="/assets/tno-logo.png" sx={{ width: 56, height: 56 }} /> */}
-
-        <Toolbar>
+      <AppBar component="nav" position="sticky" color="inherit">
+        <Toolbar
+          sx={{
+            justifyContent: 'space-between',
+            p: 1,
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -79,25 +77,21 @@ export const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" fontWeight="bold" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-            {/* <Link href="/">Simple Game Rules</Link> */}
-            {/* <Avatar alt="Remy Sharp" variant="rounded" src="/static/images/avatar/1.jpg" sx={{ width: 56, height: 56 }} /> */}
-            <Avatar alt="Remy Sharp" variant="rounded" src="/assets/uva-logo.png" sx={{ width: 56, height: 56 }} />
+          <Typography variant="h6" fontWeight="bold" component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Link href="/">
+              <Avatar alt="Remy Sharp" variant="rounded" src="/assets/dsp-project-logo.jpeg" sx={{ width: 58, height: 58 }} />
+            </Link>
           </Typography>
-          <FlexBox sx={{ display: { xs: 'none', sm: 'flex', gap: 20 } }}>
-            {navItems.map(({ label, path }) => (
+          <FlexBox sx={{ display: { xs: 'none', sm: 'flex', gap: 50 } }}>
+            {navItems.map(({ label, path, variant = 'text' }) => (
               <Link key={label} href={path}>
                 <Button
-                  variant="text"
+                  variant={variant}
                   key={label}
+                  size="large"
+                  color="warning"
                   sx={{
-                    color: theme.palette.background.default,
-                    // background: theme.palette.background.default,
-                    fontWeight: 800,
-                    ':hover': {
-                      color: theme.palette.background.default,
-                      // background: theme.palette.grey[800],
-                    },
+                    fontWeight: 900,
                   }}
                 >
                   {label}

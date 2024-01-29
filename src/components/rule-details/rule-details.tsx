@@ -151,6 +151,39 @@ const RuleDetails = ({ sentence, frames, onDelete, onFrameAdd, onLocalEdit }: an
     }
   }
 
+  const frameExplanations = {
+    acts: {
+      id: 'Unique Identifier that could connect with other frames.',
+      act: 'Describes an act that can be performed by an actor if its preconditions are met, and which results in creating and/or terminating facts.',
+      action: 'The type of action associated with an act (usually corresponds to the verb in the source text).',
+      object: 'The object of an act.',
+      actor: 'An agent (actor).',
+      recipient: 'Recipient or interested party with respect to the act.',
+      preconditions: 'Connects acts to (possibly complex) facts that must be true for the act to be valid.',
+      create: 'Connects acts to those facts that it creates when it is performed.',
+      terminate: 'Connects acts to those facts that it terminates when it is performed.',
+      sources: 'Connects an act or fact to a structural element of a legal source',
+      explanation: 'A note to explain modeling choices or issues with respect to a frame.',
+    },
+    facts: {
+      id: 'Unique Identifier that could connect with other frames.',
+      fact: 'Describes an act that can be performed by an actor if its preconditions are met, and which results in creating and/or terminating facts.',
+      function: 'Any fact that is not a complex fact. This can also be an agent or object.',
+      sources: 'Connects an act or fact to a structural element of a legal source',
+      explanation: 'A note to explain modeling choices or issues with respect to a frame.',
+    },
+    duties: {
+      id: 'Unique Identifier that could connect with other frames.',
+      duty: 'Describes an act that can be performed by an actor if its preconditions are met, and which results in creating and/or terminating facts.',
+      dutyHolder: 'The agent holding the duty.',
+      claimant: 'The agent holding the claim.',
+      terminatingAct: 'Connects acts to those facts that it terminates when it is performed.',
+      creatingAct: 'Connects acts to those facts that it creates when it is performed.',
+      enforcingAct: 'Connects acts to those facts that it creates when it is enforced.',
+      sources: 'Connects an act or fact to a structural element of a legal source',
+    },
+  }
+
   return (
     <>
       <Grid item xs={12}>
@@ -181,19 +214,21 @@ const RuleDetails = ({ sentence, frames, onDelete, onFrameAdd, onLocalEdit }: an
                     <TableBody>
                       {data.map((frame: any, frameIndex: any) => (
                         <React.Fragment key={frameIndex}>
-                          {Object.entries(frame).map(([key, value]) => (
-                            <TableRow key={key}>
-                              <TableCell>{key}</TableCell>
-                              <TableCell>
-                                <FormControl fullWidth sx={{ m: 1 }} variant="standard">
-                                  <Input value={value} onChange={(event) => handleChange(event, category, frameIndex, key)} />
-                                  <FormHelperText id="standard-weight-helper-text">{`Current Value for: ${key}: ${JSON.stringify(
-                                    value
-                                  )}`}</FormHelperText>
-                                </FormControl>
-                              </TableCell>
-                            </TableRow>
-                          ))}
+                          {Object.entries(frame).map(([key, value]) => {
+                            const explanation = frameExplanations[category][key] || 'No explanation available'
+
+                            return (
+                              <TableRow key={key}>
+                                <TableCell>{key}</TableCell>
+                                <TableCell>
+                                  <FormControl fullWidth sx={{ m: 1 }} variant="standard">
+                                    <Input value={value} onChange={(event) => handleChange(event, category, frameIndex, key)} />
+                                    <FormHelperText id="standard-weight-helper-text">{explanation}</FormHelperText>
+                                  </FormControl>
+                                </TableCell>
+                              </TableRow>
+                            )
+                          })}
                         </React.Fragment>
                       ))}
                     </TableBody>
