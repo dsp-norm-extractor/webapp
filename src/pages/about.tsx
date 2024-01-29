@@ -1,22 +1,26 @@
 import React from 'react'
 
-import { Typography, Box } from '@mui/material'
+import { Typography, Box, Container } from '@mui/material'
+
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
+
+// Import styles
+import '@react-pdf-viewer/default-layout/lib/styles/index.css'
+
+import { Viewer } from '@react-pdf-viewer/core'
+
+import '@react-pdf-viewer/core/lib/styles/index.css'
 
 const AboutPage = () => {
+  const defaultLayoutPluginInstance = defaultLayoutPlugin()
+
   return (
-    <Box>
-      <Typography variant="h2" fontWeight="bold" gutterBottom>
+    <Container maxWidth="lg">
+      <Typography variant="h3" fontWeight="bold" gutterBottom textAlign="center">
         Simple Game Rules
       </Typography>
-
-      <Typography variant="h4" gutterBottom>
-        Our Purpose
-      </Typography>
-
-      <Typography variant="body1" style={{ marginBottom: '20px' }}>
-        We do have a purpose.
-      </Typography>
-    </Box>
+      <Viewer fileUrl="assets/poster.pdf" plugins={[defaultLayoutPluginInstance]} />
+    </Container>
   )
 }
 

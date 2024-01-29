@@ -15,7 +15,6 @@ export default function Layout({ children }: PropsWithChildren) {
       <Toolbar />
       <Box
         style={{
-          paddingTop: theme.spacing(4),
           paddingBottom: theme.spacing(6),
         }}
       >

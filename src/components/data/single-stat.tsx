@@ -7,9 +7,9 @@ import { Title } from '@/components/common/generic/title'
 export const SingleStat = () => {
   return (
     <React.Fragment>
-      <Title>Highlights</Title>
+      <Title>Available Data</Title>
       <Typography component="p" variant="h4">
-        5128
+        230
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
         Sentences used in training
@@ -17,7 +17,7 @@ export const SingleStat = () => {
       {/* SPLIT */}
 
       <Typography component="p" variant="h4">
-        9761
+        260
       </Typography>
       <Typography color="text.secondary" sx={{ flex: 1 }}>
         Sentences in the database

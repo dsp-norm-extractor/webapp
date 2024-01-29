@@ -6,6 +6,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Toaster } from 'react-hot-toast'
+import { Worker } from '@react-pdf-viewer/core'
 
 import Layout from '@/components/common/structural/layout'
 
@@ -27,9 +28,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <StyledEngineProvider injectFirst>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Worker>
       </StyledEngineProvider>
       <Toaster toastOptions={{ duration: 2500 }} />
     </Fragment>

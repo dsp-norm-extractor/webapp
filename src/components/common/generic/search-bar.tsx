@@ -12,7 +12,7 @@ const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
     onSearch(event.target.value)
   }
 
-  return <TextField fullWidth label="Search" id="fullWidth" onChange={handleChange} />
+  return <TextField fullWidth label="Search Game" id="search-game-bar" placeholder="Monopoly" onChange={handleChange} />
 }
 
 export default SearchBar

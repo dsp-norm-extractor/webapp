@@ -1,26 +1,31 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
+export const getSingleFrameHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'GET') {
+    let gameName = req.query.game
+
+    if (Array.isArray(gameName)) {
+      gameName = gameName[0]
+    }
+
+    if (!gameName) {
+      res.status(400).json({ success: false, error: 'Game name is required' })
+      return
+    }
+
     try {
-      const { rules } = req.body
-      const rulesList: string[] = []
-
-      rules.map(({ component }: { component: string }) => rulesList.push(component))
-
-      // Send a POST request to the backend
-      const backendUrl = 'http://localhost:8000/predict_frame'
+      const backendUrl = `http://localhost:8000/get_game_details?` + new URLSearchParams({ game_name: gameName }).toString()
       const backendResponse = await fetch(backendUrl, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(rulesList),
       })
 
       if (backendResponse.ok) {
         // Backend successfully processed the rules
         const backendData = await backendResponse.json()
+
         res.status(200).json({ success: true, backendData })
       } else {
         // Backend returned an error
@@ -36,4 +41,4 @@ export const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default apiHandler
+export default getSingleFrameHandler

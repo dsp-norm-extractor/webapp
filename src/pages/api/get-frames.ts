@@ -1,21 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
+export const getFramesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'GET') {
     try {
-      const { rules } = req.body
-      const rulesList: string[] = []
-
-      rules.map(({ component }: { component: string }) => rulesList.push(component))
-
-      // Send a POST request to the backend
-      const backendUrl = 'http://localhost:8000/predict_frame'
+      const backendUrl = 'http://localhost:8000/get_frames'
       const backendResponse = await fetch(backendUrl, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(rulesList),
       })
 
       if (backendResponse.ok) {
@@ -36,4 +29,4 @@ export const apiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export default apiHandler
+export default getFramesHandler
