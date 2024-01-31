@@ -11,7 +11,7 @@ import { FlexBox } from '@/components/common/generic/flexbox.styled'
 import { parseRules } from '@/helpers/parse-rules'
 
 const exampleRules =
-  "If the other players can't do so, then on the original player's next turn, they may pair up their 5 with the 2 and the 3. Before gameplay can begin, a caller must be selected. The caller shuffles both decks and then passes out five cards, faced up, to each player."
+  "Bingo is a card game for four or more players. Players arrange themselves in a circle. Each player draws 1 card from the top of the pile. The dealer is the player with the lowest card.  The dealer picks up the deck of 52 cards. The dealer deals 7 cards to each player. Players should only place their cards face down of the table, as per the dealer's instructions."
 const AddRules = () => {
   const [text, setText] = useState('')
   const [gameTitle, setGameTitle] = useState('')
@@ -27,7 +27,7 @@ const AddRules = () => {
   }
 
   const AddExampleRules = () => {
-    setGameTitle('Monopoly')
+    setGameTitle('Bingo')
     setText(exampleRules)
   }
 
