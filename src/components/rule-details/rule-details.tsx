@@ -186,8 +186,8 @@ const RuleDetails = ({ sentence, frames, onDelete, onFrameAdd, onLocalEdit }: an
 
   return (
     <>
-      <Grid item xs={12}>
-        <Typography variant="body1" fontWeight={800}>
+      <Grid item xs={12} mb={3} mt={5}>
+        <Typography variant="body1" fontWeight={700} fontStyle="italic" textAlign="center">
           {sentence}
         </Typography>
       </Grid>
@@ -195,7 +195,7 @@ const RuleDetails = ({ sentence, frames, onDelete, onFrameAdd, onLocalEdit }: an
         if (data.length > 0) {
           return (
             <Grid key={index} item xs={12}>
-              <Paper elevation={5} sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+              <Paper elevation={3} sx={{ p: 2, display: 'flex', flexDirection: 'column', mt: 5, mb: 5 }}>
                 <TableContainer>
                   <FlexBox alignItems="flex-start" justifyContent="space-between">
                     <Title>{`${category.charAt(0).toUpperCase() + category.slice(1)}`}</Title>

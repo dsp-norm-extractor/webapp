@@ -136,9 +136,9 @@ const FrameViewer: FC = () => {
                 Next
               </Button>
             </ButtonGroup>
-            <Button variant="text" disabled>
+            <Typography variant="h6" fontWeight={900}>
               {gameDetails[0]?.game}
-            </Button>
+            </Typography>
             <ButtonGroup variant="contained">
               <Button color="secondary" startIcon={<SaveIcon />} onClick={handleSave}>
                 Save
