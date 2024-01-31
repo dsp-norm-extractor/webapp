@@ -1,10 +1,29 @@
-import { Box, Typography, Paper, Container, Grid, Button } from '@mui/material'
+import { Paper, Container, Grid, Button, DialogTitle, Dialog, DialogContent, LinearProgress, Typography } from '@mui/material'
 
 import { Chart } from '@/components/data/chart'
 import Sentences from '@/components/data/sentences'
 import { SingleStat } from '@/components/data/single-stat'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 export default function ModelData() {
+  const [open, setOpen] = useState(false)
+  const [loadingText, setLoadingText] = useState('')
+
+  const handleRetrain = () => {
+    setOpen(true)
+    setLoadingText('Adding new sentences to database')
+
+    setTimeout(() => {
+      setLoadingText('Sending request to start process')
+
+      setTimeout(() => {
+        setOpen(false)
+        toast.success('Retraining started successfully')
+      }, 4000)
+    }, 2000)
+  }
+
   return (
     <>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -42,8 +61,17 @@ export default function ModelData() {
           </Grid>
         </Grid>
         <Grid item xs={4} mt={2}>
-          <Button variant="contained">Retrain Model</Button>
+          <Button variant="contained" onClick={handleRetrain}>
+            Retrain Model
+          </Button>
         </Grid>
+        <Dialog open={open} onClose={() => setOpen(false)}>
+          <DialogTitle>{loadingText}</DialogTitle>
+          <DialogContent>
+            <LinearProgress />
+            {/* <Typography>{loadingText}</Typography> */}
+          </DialogContent>
+        </Dialog>
       </Container>
     </>
   )
